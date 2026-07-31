@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="robots" content="noindex,nofollow" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ALLXAI - Sign in</title>
+<style>
+  :root{
+    --bg:#070b12; --panel:#0d1420; --panel2:#0a111c; --line:#1b2838;
+    --ink:#e8f0f7; --muted:#8598ad; --cyan:#22c9e0; --cyan2:#2f8cff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;background:
+      radial-gradient(1200px 600px at 15% 40%, rgba(34,201,224,.10), transparent 60%),
+      radial-gradient(900px 500px at 85% 70%, rgba(47,140,255,.08), transparent 60%),
+      var(--bg);
+    color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;display:grid;place-items:center;padding:24px}
+  .wrap{width:100%;max-width:1080px;display:grid;grid-template-columns:1.05fr .95fr;
+    gap:0;border:1px solid var(--line);border-radius:20px;overflow:hidden;
+    background:linear-gradient(180deg,rgba(255,255,255,.02),transparent)}
+  @media (max-width:820px){ .wrap{grid-template-columns:1fr} .left{display:none} }
+  /* left brand panel */
+  .left{position:relative;padding:52px 46px;background:
+      radial-gradient(600px 400px at 30% 60%, rgba(34,201,224,.12), transparent 65%), var(--panel2);
+    display:flex;flex-direction:column;justify-content:space-between;min-height:560px;border-right:1px solid var(--line)}
+  .logo{font-size:40px;font-weight:800;letter-spacing:1px}
+  .logo .x{color:var(--cyan)}
+  .tag{color:var(--cyan);font-weight:600;margin-top:6px;letter-spacing:.5px}
+  .headline{margin-top:34px;font-size:24px;font-weight:700;line-height:1.35;max-width:320px}
+  .orb{position:relative;align-self:center;width:230px;height:230px;margin:26px 0}
+  .orb .core{position:absolute;inset:34%;border-radius:50%;
+    background:radial-gradient(circle at 40% 35%, #7ff0ff, var(--cyan) 45%, #1264c9 90%);
+    box-shadow:0 0 60px rgba(34,201,224,.55), inset 0 0 30px rgba(255,255,255,.35)}
+  .orb .ring{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(34,201,224,.35)}
+  .orb .ring.r2{inset:14%;border-color:rgba(34,201,224,.25)}
+  .orb .ring.r3{inset:26%;border-color:rgba(47,140,255,.30)}
+  .secure{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px}
+  .secure .s{width:30px;height:30px;border-radius:8px;background:rgba(34,201,224,.12);color:var(--cyan);display:grid;place-items:center;font-size:15px}
+  /* right form */
+  .right{padding:52px 46px;background:var(--panel)}
+  .right h1{font-size:26px;margin:0 0 4px}
+  .right .sub{color:var(--muted);margin-bottom:26px;font-size:14px}
+  label{display:block;font-size:13px;color:var(--muted);margin:14px 0 6px}
+  .inp{position:relative}
+  .inp input{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:10px;background:var(--panel2);color:var(--ink);font-size:14px}
+  .inp input:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(34,201,224,.15)}
+  .eye{position:absolute;right:12px;top:12px;color:var(--muted);cursor:pointer;background:none;border:none;font-size:15px}
+  .forgot{text-align:right;margin-top:8px}
+  .forgot a{color:var(--cyan);font-size:12.5px;text-decoration:none}
+  .btn{width:100%;margin-top:20px;padding:13px;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;
+    background:linear-gradient(90deg,var(--cyan),var(--cyan2));color:#04202a}
+  .or{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:12.5px;margin:20px 0}
+  .or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
+  .oauth{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .oauth button{padding:11px;border:1px solid var(--line);border-radius:10px;background:var(--panel2);color:var(--ink);font-weight:600;font-size:13.5px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+  .signup{text-align:center;margin-top:22px;color:var(--muted);font-size:13.5px}
+  .signup a{color:var(--cyan);text-decoration:none;font-weight:600}
+  .demo-note{margin-top:22px;text-align:center;font-size:11.5px;color:var(--muted);font-style:italic}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="left">
+      <div>
+        <div class="logo">ALL<span class="x">X</span>AI</div>
+        <div class="tag">Together With AI</div>
+        <div class="headline">Your AI-Powered Business Platform</div>
+      </div>
+      <div class="orb"><div class="ring"></div><div class="ring r2"></div><div class="ring r3"></div><div class="core"></div></div>
+      <div class="secure"><span class="s">&#128274;</span><div><b>Enterprise-grade security</b><br><span style="font-size:12px">Your data is safe with us</span></div></div>
+    </div>
+    <div class="right">
+      <h1>Welcome back</h1>
+      <div class="sub">Login to your account</div>
+      <label>Email address</label>
+      <div class="inp"><input type="email" placeholder="Enter your email" /></div>
+      <label>Password</label>
+      <div class="inp"><input id="pw" type="password" placeholder="Enter your password" /><button class="eye" onclick="var p=document.getElementById('pw');p.type=p.type==='password'?'text':'password'">&#128065;</button></div>
+      <div class="forgot"><a href="#">Forgot password?</a></div>
+      <button class="btn" onclick="location.href='app.html'">Login</button>
+      <div class="or">or continue with</div>
+      <div class="oauth"><button>G&nbsp; Google</button><button>&#9670;&nbsp; Microsoft</button></div>
+      <div class="signup">Don't have an account? <a href="#">Sign up</a></div>
+      <div class="demo-note">Demonstration sign-in - not connected to authentication in the MVP.</div>
+    </div>
+  </div>
+</body>
+</html>

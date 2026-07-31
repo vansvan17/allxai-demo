@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="robots" content="noindex,nofollow" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ALLXAI - Lead Triage MVP</title>
+<style>
+  :root{
+    --bg:#070b12; --panel:#0d1420; --ink:#e8f0f7; --muted:#8598ad;
+    --line:#17222e; --accent:#22c9e0; --accent-soft:#0e2028;
+    --high:#ff6b6b; --high-bg:#3a2226; --med:#ffb951; --med-bg:#3a2f1e;
+    --low:#8598ad; --low-bg:#141e2a; --ok:#69db7c; --shadow:0 1px 3px rgba(0,0,0,.5);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#070b12; --panel:#0d1420; --ink:#e8f0f7; --muted:#8598ad;
+      --line:#17222e; --accent:#22c9e0; --accent-soft:#0e2028;
+      --high:#ff6b6b; --high-bg:#3a2226; --med:#ffb951; --med-bg:#3a2f1e;
+      --low:#9aa7b6; --low-bg:#232c38; --ok:#69db7c; --shadow:0 1px 3px rgba(0,0,0,.4);}
+  }
+  :root[data-theme="light"]{
+    --bg:#f4f6fa; --panel:#ffffff; --ink:#1b2430; --muted:#5f6b7a;
+    --line:#e4e9f0; --accent:#3b5bdb; --accent-soft:#eef2ff;
+    --high:#e03131; --high-bg:#ffe9e9; --med:#f08c00; --med-bg:#fff4e2;
+    --low:#5f6b7a; --low-bg:#eef1f5; --ok:#2f9e44; --shadow:0 1px 3px rgba(20,30,50,.08),0 4px 16px rgba(20,30,50,.06);
+  }
+  :root[data-theme="dark"]{
+    --bg:#070b12; --panel:#0d1420; --ink:#e8f0f7; --muted:#8598ad;
+    --line:#17222e; --accent:#22c9e0; --accent-soft:#0e2028;
+    --high:#ff6b6b; --high-bg:#3a2226; --med:#ffb951; --med-bg:#3a2f1e;
+    --low:#9aa7b6; --low-bg:#232c38; --ok:#69db7c; --shadow:0 1px 3px rgba(0,0,0,.4);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;font-size:14px;line-height:1.45}
+  .app{display:flex;min-height:100vh}
+  .side{width:212px;background:var(--panel);border-right:1px solid var(--line);padding:18px 14px;flex-shrink:0}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:700;font-size:16px;letter-spacing:.3px;margin-bottom:22px}
+  .logo{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#22c9e0,#2f8cff);
+    display:grid;place-items:center;color:#fff;font-size:13px;font-weight:800}
+  .nav a{display:block;padding:9px 11px;border-radius:8px;color:var(--muted);text-decoration:none;font-weight:500;margin-bottom:2px;cursor:pointer}
+  .nav a.active{background:var(--accent-soft);color:var(--accent)}
+  .nav .sec{font-size:11px;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin:18px 0 6px 11px;opacity:.7}
+  .main{flex:1;display:flex;flex-direction:column;min-width:0}
+  .top{display:flex;align-items:center;justify-content:space-between;padding:16px 26px;border-bottom:1px solid var(--line);background:var(--panel)}
+  .top h1{font-size:16px;margin:0;font-weight:650}
+  .top .sub{color:var(--muted);font-size:12.5px;margin-top:2px}
+  .user{display:flex;align-items:center;gap:9px;color:var(--muted);font-size:13px}
+  .avatar{width:30px;height:30px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-weight:700}
+  .pillx{display:inline-block;padding:2px 9px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font-size:11px;font-weight:700}
+
+  /* views */
+  .view{display:none}
+  .view.active{display:block}
+  .pad{padding:20px 26px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:14px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:var(--shadow)}
+  .card .k{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);font-weight:700}
+  .card .v{font-size:26px;font-weight:750;margin-top:6px;font-variant-numeric:tabular-nums}
+  .card .s{font-size:12px;color:var(--muted);margin-top:3px}
+  .panelbox{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;box-shadow:var(--shadow);margin-top:16px}
+  .panelbox h3{margin:0 0 4px;font-size:13.5px}
+  .panelbox .cap{color:var(--muted);font-size:12px;margin-bottom:12px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media (max-width:820px){ .grid2{grid-template-columns:1fr} }
+
+  /* bars */
+  .bar-row{display:grid;grid-template-columns:130px 1fr 42px;gap:12px;align-items:center;margin:9px 0}
+  .bar-lab{font-size:12.5px;color:var(--muted)}
+  .bar-track{height:12px;border-radius:999px;background:var(--line);overflow:hidden}
+  .bar-fill{height:100%;background:linear-gradient(90deg,#22c9e0,#2f8cff);border-radius:999px}
+  .bar-val{font-size:12.5px;text-align:right;font-variant-numeric:tabular-nums;font-weight:650}
+
+  /* pipeline */
+  .pipe{display:flex;align-items:stretch;flex-wrap:wrap;gap:0}
+  .pipe-node{flex:1;min-width:205px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:var(--shadow)}
+  .pipe-node .role{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--accent);font-weight:800}
+  .pipe-node .nm{font-size:16px;font-weight:700;margin:4px 0 7px}
+  .pipe-node .ds{font-size:12.5px;color:var(--muted);line-height:1.5}
+  .pipe-arrow{display:flex;align-items:center;justify-content:center;padding:0 10px;color:var(--muted);font-size:20px}
+
+  /* table */
+  .mtable{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
+  .mtable th{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);font-weight:700}
+  .mtable td{padding:12px 14px;border-bottom:1px solid var(--line);font-size:13px;vertical-align:top}
+  .mtable tr:last-child td{border-bottom:none}
+
+  /* calculator */
+  .calc{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  @media (max-width:820px){ .calc{grid-template-columns:1fr} }
+  .field{margin-bottom:12px}
+  .field label{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}
+  .field input{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font-size:14px}
+  .calc-out{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .calc-out .o{background:var(--accent-soft);border-radius:10px;padding:15px}
+  .calc-out .o .k{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--accent);font-weight:700}
+  .calc-out .o .v{font-size:23px;font-weight:750;margin-top:5px;font-variant-numeric:tabular-nums}
+  .note{font-size:12px;color:var(--muted);margin-top:14px;font-style:italic}
+
+  /* triage */
+  .tabs{display:flex;gap:6px;margin-bottom:14px}
+  .tab{padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--muted);font-size:12.5px;cursor:pointer;font-weight:600}
+  .tab.active{background:linear-gradient(90deg,#22c9e0,#2f8cff);border-color:transparent;color:#04202a}
+  .bar{display:flex;align-items:center;gap:12px;margin-bottom:12px;color:var(--muted);font-size:12.5px}
+  .search{margin-left:auto;padding:7px 12px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink);width:210px}
+  .tbody{display:flex;gap:0;min-height:0}
+  .queue{flex:1;min-width:0}
+  table.q{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
+  table.q th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);padding:12px 14px;border-bottom:1px solid var(--line);font-weight:700}
+  table.q td{padding:13px 14px;border-bottom:1px solid var(--line);vertical-align:middle}
+  table.q tr:last-child td{border-bottom:none}
+  tr.row{cursor:pointer}
+  tr.row:hover{background:var(--accent-soft)}
+  .chip{display:inline-block;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:.4px}
+  .chip.HIGH{background:var(--high-bg);color:var(--high)} .chip.MEDIUM{background:var(--med-bg);color:var(--med)} .chip.LOW{background:var(--low-bg);color:var(--low)}
+  .lead-name{font-weight:650} .lead-id{color:var(--muted);font-size:12px}
+  .conf{display:flex;align-items:center;gap:8px;min-width:120px}
+  .track{flex:1;height:6px;border-radius:999px;background:var(--line);overflow:hidden}
+  .fill{height:100%;background:linear-gradient(90deg,#22c9e0,#2f8cff)}
+  .conf span{font-variant-numeric:tabular-nums;color:var(--muted);font-size:12.5px;font-weight:600}
+  .age{color:var(--muted);font-size:12.5px}
+  .detail{width:430px;flex-shrink:0;border-left:1px solid var(--line);background:var(--panel);margin-left:18px;border-radius:12px;overflow:hidden;display:flex;flex-direction:column;align-self:flex-start}
+  .detail .empty{margin:auto;text-align:center;color:var(--muted);padding:40px}
+  .dhead{padding:18px 22px;border-bottom:1px solid var(--line)}
+  .dhead .co{font-size:17px;font-weight:700} .dhead .meta{color:var(--muted);font-size:12.5px;margin-top:3px}
+  .drow{display:flex;gap:20px;padding:16px 22px;border-bottom:1px solid var(--line)}
+  .kv .k{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:4px}
+  .kv .v{font-weight:700;font-size:15px}
+  .action-v{color:var(--accent)}
+  .sec-title{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);font-weight:700;padding:16px 22px 6px}
+  .evidence{list-style:none;margin:0;padding:0 22px 14px}
+  .evidence li{padding:9px 0;border-bottom:1px dashed var(--line);display:flex;flex-direction:column;gap:2px}
+  .evidence li:last-child{border-bottom:none}
+  .evidence .claim{font-weight:550} .evidence .src{font-size:11.5px;color:var(--muted)}
+  .runinfo{margin:6px 22px 0;padding:11px 14px;background:var(--accent-soft);border-radius:9px;color:var(--muted);font-size:12.5px;display:flex;justify-content:space-between;align-items:center}
+  .link{color:var(--accent);font-weight:650;cursor:pointer;background:none;border:none;font-size:12.5px}
+  .actions{padding:16px 22px;border-top:1px solid var(--line);display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+  .btn{padding:9px 15px;border-radius:9px;border:1px solid var(--line);background:var(--panel);color:var(--ink);font-weight:650;cursor:pointer;font-size:13px}
+  .btn.primary{background:linear-gradient(90deg,#22c9e0,#2f8cff);border-color:transparent;color:#04202a}
+  select.btn{appearance:none}
+  .banner{padding:10px 26px;background:var(--low-bg);color:var(--ok);font-weight:650;font-size:13px;display:none}
+  .scrim{position:fixed;inset:0;background:rgba(10,15,25,.45);display:none;z-index:9}
+  .drawer{position:fixed;top:0;right:0;height:100%;width:440px;max-width:92vw;background:var(--panel);box-shadow:-8px 0 30px rgba(10,20,40,.2);transform:translateX(100%);transition:transform .22s ease;z-index:10;display:flex;flex-direction:column}
+  .drawer.open{transform:translateX(0)} .scrim.open{display:block}
+  .dwhead{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--line)}
+  .dwhead b{font-size:14px} .x{border:none;background:none;font-size:20px;color:var(--muted);cursor:pointer;line-height:1}
+  .log{padding:8px 0;overflow:auto}
+  .step{display:grid;grid-template-columns:26px 92px 1fr auto;gap:10px;align-items:center;padding:11px 20px;border-bottom:1px solid var(--line);font-size:12.5px}
+  .step .n{width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-weight:800;font-size:12px}
+  .step .op{font-weight:700} .step .arg{color:var(--muted);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .status-ok{color:var(--ok);font-weight:700;font-size:11.5px}
+  .dwfoot{margin-top:auto;padding:13px 20px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}
+  @media (max-width:900px){ .side{display:none} .tbody{flex-direction:column} .detail{width:100%;margin-left:0;margin-top:16px;border-left:none} }
+  /* upgrade modal + plans */
+  .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:20}
+  .modal.open{display:flex}
+  .modal-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:0 20px 60px rgba(10,20,40,.35);max-width:440px;width:92%;padding:24px}
+  .modal-title{font-size:18px;font-weight:750}
+  .modal-body{color:var(--muted);font-size:13.5px;margin:8px 0 18px;line-height:1.5}
+  .modal-actions{display:flex;gap:9px;justify-content:flex-end;flex-wrap:wrap}
+  .plan{display:flex;flex-direction:column}
+  .plan .pname{font-size:13px;font-weight:750;text-transform:uppercase;letter-spacing:.5px;color:var(--accent)}
+  .plan .pprice{font-size:22px;font-weight:750;margin:8px 0 2px}
+  .plan .psub{font-size:12px;color:var(--muted);margin-bottom:12px}
+  .plan ul{list-style:none;margin:0 0 16px;padding:0;font-size:13px;color:var(--ink)}
+  .plan li{padding:5px 0;border-bottom:1px dashed var(--line)}
+  .plan li:last-child{border-bottom:none}
+  .plan .cur{margin-top:auto;text-align:center;padding:9px;border-radius:8px;background:var(--low-bg);color:var(--muted);font-weight:650;font-size:13px}
+</style>
+<script>window.__ALLXAI_DATA__ = [{"run": "R-4471-2614", "id": "L-4471", "co": "Acme Corp", "contact": "J. Rao", "source": "Web form", "created": "today", "priority": "HIGH", "conf": 0.95, "action": "route_to_sales", "age": "now", "status": "pending", "evidence": [["Explicit buying intent in message", "lead.inbound_message"], ["Mid Market company fit", "company.size_band"], ["3 recent activity events", "activities"]], "run_info": {"calls": 3, "ms": 0.06, "tokens": 150}, "log": [["decide", "plan: get_lead, get_company, get_activity_history"], ["get_lead", "{\"lead_id\": \"L-4471\"}"], ["get_company", "{\"company_id\": \"C-889\"}"], ["get_activity_history", "{\"lead_id\": \"L-4471\", \"limit\": 20}"], ["reason", "recommendation formed"], ["validate", "all criteria met"]]}, {"run": "R-4470-2614", "id": "L-4470", "co": "Beta Ltd", "contact": "M. Shah", "source": "Web form", "created": "today", "priority": "MEDIUM", "conf": 0.67, "action": "request_more_information", "age": "now", "status": "pending", "evidence": [["General interest expressed", "lead.inbound_message"], ["Small Business company", "company.size_band"], ["1 recent activity events", "activities"]], "run_info": {"calls": 3, "ms": 0.04, "tokens": 116}, "log": [["decide", "plan: get_lead, get_company, get_activity_history"], ["get_lead", "{\"lead_id\": \"L-4470\"}"], ["get_company", "{\"company_id\": \"C-701\"}"], ["get_activity_history", "{\"lead_id\": \"L-4470\", \"limit\": 20}"], ["reason", "recommendation formed"], ["validate", "all criteria met"]]}, {"run": "R-4468-2614", "id": "L-4468", "co": "Gamma Inc", "contact": "P. Iyer", "source": "Referral", "created": "today", "priority": "HIGH", "conf": 0.91, "action": "request_more_information", "age": "now", "status": "pending", "evidence": [["General interest expressed", "lead.inbound_message"], ["Enterprise company fit", "company.size_band"], ["2 recent activity events", "activities"]], "run_info": {"calls": 3, "ms": 0.02, "tokens": 132}, "log": [["decide", "plan: get_lead, get_company, get_activity_history"], ["get_lead", "{\"lead_id\": \"L-4468\"}"], ["get_company", "{\"company_id\": \"C-655\"}"], ["get_activity_history", "{\"lead_id\": \"L-4468\", \"limit\": 20}"], ["reason", "recommendation formed"], ["validate", "all criteria met"]]}, {"run": "R-4467-2614", "id": "L-4467", "co": "Delta Co", "contact": "S. Nair", "source": "Web form", "created": "today", "priority": "LOW", "conf": 0.55, "action": "route_to_nurture", "age": "now", "status": "pending", "evidence": [["No explicit buying intent stated", "lead.inbound_message"], ["Small Business company", "company.size_band"], ["No recent activity", "activities"]], "run_info": {"calls": 3, "ms": 0.12, "tokens": 98}, "log": [["decide", "plan: get_lead, get_company, get_activity_history"], ["get_lead", "{\"lead_id\": \"L-4467\"}"], ["get_company", "{\"company_id\": \"C-540\"}"], ["get_activity_history", "{\"lead_id\": \"L-4467\", \"limit\": 20}"], ["reason", "recommendation formed"], ["validate", "all criteria met"]]}];</script>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand"><span class="logo">AX</span> ALLXAI</div>
+    <nav class="nav" id="nav">
+      <div class="sec">Main</div>
+      <a data-view="dashboard">Dashboard</a>
+      <a data-view="triage">Workflows</a>
+      <div class="sec">Insights</div>
+      <a data-view="analytics">Analytics</a>
+      <a data-view="agents">Agents</a>
+      <div class="sec">Planning</div>
+      <a data-view="roi">ROI Calculator</a>
+      <a data-view="models">Model Comparison</a>
+      <div class="sec">Account</div>
+      <a data-view="plans">Plans &amp; Pricing</a>
+    </nav>
+  </aside>
+
+  <div class="main">
+    <div class="top">
+      <div>
+        <h1 id="vtitle">Dashboard</h1>
+        <div class="sub" id="vsub">Live overview of triage activity.</div>
+      </div>
+      <div class="user"><span class="pillx" id="planbadge" style="background:var(--low-bg);color:var(--muted)">Free plan</span><span class="pillx" id="srcbadge">loading</span><span>Sales Ops</span><span class="avatar">SO</span></div>
+    </div>
+    <div class="banner" id="banner"></div>
+
+    <!-- DASHBOARD -->
+    <section class="view active pad" id="view-dashboard">
+      <div class="cards" id="dash-cards"></div>
+      <div class="grid2">
+        <div class="panelbox"><h3>Priority mix</h3><div class="cap">Across all leads triaged this session.</div><div id="dash-priority"></div></div>
+        <div class="panelbox"><h3>Recent recommendations</h3><div class="cap">Highest priority first.</div><div id="dash-recent"></div></div>
+      </div>
+    </section>
+
+    <!-- TRIAGE -->
+    <section class="view pad" id="view-triage">
+      <div class="tabs">
+        <div class="tab active" data-tab="pending">Pending <b id="c-pending"></b></div>
+        <div class="tab" data-tab="accepted">Accepted <b id="c-accepted"></b></div>
+        <div class="tab" data-tab="adjusted">Adjusted <b id="c-adjusted"></b></div>
+      </div>
+      <div class="bar"><span>Sorted by priority, then confidence</span>
+        <input class="search" placeholder="Search leads..." oninput="render()" id="search"/></div>
+      <div class="tbody">
+        <div class="queue">
+          <table class="q"><thead><tr><th>Priority</th><th>Lead</th><th>Recommended action</th><th>Confidence</th><th>Age</th></tr></thead>
+          <tbody id="rows"></tbody></table>
+        </div>
+        <aside class="detail" id="detail">
+          <div class="empty" id="empty">Select a recommendation to review its evidence and audit trail.</div>
+          <div id="dcontent" style="display:none;flex:1;flex-direction:column"></div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ANALYTICS -->
+    <section class="view pad" id="view-analytics">
+      <div class="grid2">
+        <div class="panelbox"><h3>By priority</h3><div class="cap">How leads distribute across priority.</div><div id="an-priority"></div></div>
+        <div class="panelbox"><h3>By recommended action</h3><div class="cap">What the workflow recommends.</div><div id="an-action"></div></div>
+      </div>
+      <div class="panelbox"><h3>Confidence distribution</h3><div class="cap">Model confidence across recommendations.</div><div id="an-conf"></div></div>
+    </section>
+
+    <!-- AGENTS -->
+    <section class="view pad" id="view-agents">
+      <div class="panelbox"><h3>The triage pipeline</h3>
+        <div class="cap">Every run passes through three roles with different privileges. This is the real architecture, not a diagram.</div>
+        <div class="pipe" id="ag-pipe"></div>
+      </div>
+      <div class="cards" id="ag-stats" style="margin-top:16px"></div>
+    </section>
+
+    <!-- ROI -->
+    <section class="view pad" id="view-roi">
+      <div class="panelbox"><h3>ROI calculator</h3>
+        <div class="cap">Estimate the impact of automating lead triage. Enter your own numbers.</div>
+        <div class="calc">
+          <div>
+            <div class="field"><label>Leads per month</label><input id="r-leads" type="number" value="2000"></div>
+            <div class="field"><label>Minutes saved per lead (manual triage)</label><input id="r-mins" type="number" value="4"></div>
+            <div class="field"><label>Loaded cost per minute (Rs)</label><input id="r-cpm" type="number" value="6"></div>
+            <div class="field"><label>Conversion lift from faster, consistent triage (percentage points)</label><input id="r-lift" type="number" value="1.5"></div>
+            <div class="field"><label>Gross margin per converted deal (Rs)</label><input id="r-margin" type="number" value="20000"></div>
+            <div class="field"><label>Platform cost per month (Rs)</label><input id="r-cost" type="number" value="30000"></div>
+          </div>
+          <div>
+            <div class="calc-out">
+              <div class="o"><div class="k">Annual benefit</div><div class="v" id="o-benefit">-</div></div>
+              <div class="o"><div class="k">Annual cost</div><div class="v" id="o-cost">-</div></div>
+              <div class="o"><div class="k">Net benefit / year</div><div class="v" id="o-net">-</div></div>
+              <div class="o"><div class="k">Return</div><div class="v" id="o-roi">-</div></div>
+            </div>
+            <div class="note">Illustrative model. It runs on the numbers you enter, not on live data. Confirm your own lead volumes, costs and conversion figures before using this externally.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODELS -->
+    <section class="view pad" id="view-models">
+      <div class="panelbox"><h3>Model comparison</h3>
+        <div class="cap">A reference for choosing a model to power the workflow. Qualitative - confirm current pricing, latency and limits against each provider's live documentation.</div>
+        <div style="overflow-x:auto"><table class="mtable" id="model-table"></table></div>
+        <div class="note" id="model-note"></div>
+      </div>
+    </section>
+
+    <!-- PLANS -->
+    <section class="view pad" id="view-plans">
+      <div class="cards" id="plan-cards" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))"></div>
+      <div class="note">First workflow run is free. Subscribe or contact us for plans and pricing to automate at scale. This is a demonstration of the model; billing is not connected in the MVP.</div>
+    </section>
+
+  </div>
+</div>
+
+<div class="scrim" id="scrim" onclick="closeLog()"></div>
+<div class="drawer" id="drawer">
+  <div class="dwhead"><b>Audit log - <span id="log-run"></span></b><button class="x" onclick="closeLog()">&times;</button></div>
+  <div class="log" id="log"></div>
+  <div class="dwfoot">Every step is timestamped. No write or action tools were called in this run.</div>
+</div>
+
+<div class="scrim" id="uscrim" onclick="closeUpgrade()"></div>
+<div class="modal" id="umodal">
+  <div class="modal-card">
+    <div class="modal-title">Free workflow used</div>
+    <div class="modal-body">You have completed your free lead-triage run. To automate triage at scale, choose a plan or contact us for plans and pricing.</div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeUpgrade()">Keep exploring</button>
+      <button class="btn" onclick="closeUpgrade();showView('plans')">See plans</button>
+      <button class="btn primary" onclick="contactProvider()">Contact provider</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const ACTION_LABEL={route_to_sales:"Route to sales",request_more_information:"Request more info",route_to_nurture:"Route to nurture"};
+const ACTIONS=Object.keys(ACTION_LABEL);
+const ORDER={HIGH:0,MEDIUM:1,LOW:2};
+const VIEWS={
+  dashboard:["Dashboard","Live overview of triage activity."],
+  triage:["Workflows","Advisory workflow - reads records, recommends a next action. Read-only."],
+  analytics:["Analytics","Breakdowns from the triage runs."],
+  agents:["Agents","The decide, execute, validate pipeline."],
+  roi:["ROI Calculator","Estimate impact from your own numbers."],
+  models:["Model Comparison","Reference for choosing a model."],
+  plans:["Plans & Pricing","First workflow free. Subscribe to automate at scale."]
+};
+const SAMPLE=[
+  {run:"R-8823",id:"L-4471",co:"Acme Corp",contact:"J. Rao",source:"Web form",created:"today",priority:"HIGH",conf:0.88,action:"route_to_sales",age:"now",status:"pending",
+   evidence:[["Explicit pricing request","lead.inbound_message"],["Mid-market fit","company.size_band"],["3 pricing-page visits","activities"]],
+   run_info:{calls:3,ms:2.4,tokens:150},log:[["decide","plan: get_lead, get_company, get_activity"],["get_lead","{ lead_id: L-4471 }"],["get_company","{ company_id: C-889 }"],["get_activity","{ lead_id: L-4471 }"],["reason","recommendation formed"],["validate","evidence cited, action in set"]]}
+];
+let data=SAMPLE, currentTab="pending", selected=null, freeUsed=false;
+
+/* navigation */
+function showView(name){
+  if(!VIEWS[name]) name="dashboard";
+  document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
+  document.getElementById("view-"+name).classList.add("active");
+  document.querySelectorAll("#nav a").forEach(a=>a.classList.toggle("active",a.dataset.view===name));
+  document.getElementById("vtitle").textContent=VIEWS[name][0];
+  document.getElementById("vsub").textContent=VIEWS[name][1];
+}
+document.querySelectorAll("#nav a").forEach(a=>a.onclick=()=>showView(a.dataset.view));
+
+/* aggregates from real leads */
+function agg(){
+  const by={HIGH:0,MEDIUM:0,LOW:0}, act={}; let calls=0,tok=0,esc=0,csum=0;
+  data.forEach(l=>{ by[l.priority]=(by[l.priority]||0)+1; act[l.action]=(act[l.action]||0)+1;
+    calls+=l.run_info.calls; tok+=l.run_info.tokens; csum+=l.conf; if(l.status!=="pending")esc++; });
+  return {n:data.length,by,act,calls,tok,esc,avg:data.length?csum/data.length:0};
+}
+function bars(container, rows){
+  const max=Math.max(1,...rows.map(r=>r[1]));
+  document.getElementById(container).innerHTML=rows.map(r=>`
+    <div class="bar-row"><div class="bar-lab">${r[0]}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${Math.round(r[1]/max*100)}%"></div></div>
+      <div class="bar-val">${r[1]}</div></div>`).join("") || '<div class="cap">No data.</div>';
+}
+
+/* dashboard */
+function renderDashboard(){
+  const a=agg();
+  document.getElementById("dash-cards").innerHTML=[
+    ["Leads triaged",a.n,"this session"],
+    ["High priority",a.by.HIGH||0,"need attention"],
+    ["Avg confidence",a.avg.toFixed(2),"across recommendations"],
+    ["Tool calls",a.calls,"all read-only"],
+    ["Writes",0,"advisory, no writes"],
+    ["Est. tokens",a.tok,"reasoning cost"],
+  ].map(c=>`<div class="card"><div class="k">${c[0]}</div><div class="v">${c[1]}</div><div class="s">${c[2]}</div></div>`).join("");
+  bars("dash-priority",["HIGH","MEDIUM","LOW"].map(p=>[p,a.by[p]||0]));
+  const recent=data.slice().sort((x,y)=>ORDER[x.priority]-ORDER[y.priority]||y.conf-x.conf).slice(0,5);
+  document.getElementById("dash-recent").innerHTML=recent.map(l=>`
+    <div class="bar-row" style="grid-template-columns:64px 1fr auto">
+      <span class="chip ${l.priority}">${l.priority}</span>
+      <span>${l.co} <span class="lead-id">${l.id}</span></span>
+      <span class="bar-val">${ACTION_LABEL[l.action]}</span></div>`).join("");
+}
+
+/* analytics */
+function renderAnalytics(){
+  const a=agg();
+  bars("an-priority",["HIGH","MEDIUM","LOW"].map(p=>[p,a.by[p]||0]));
+  bars("an-action",ACTIONS.filter(x=>a.act[x]).map(x=>[ACTION_LABEL[x],a.act[x]]));
+  const b={}; data.forEach(l=>{const k=(Math.floor(l.conf*10)/10).toFixed(1);b[k]=(b[k]||0)+1;});
+  bars("an-conf",Object.keys(b).sort().map(k=>[k+" - "+(parseFloat(k)+0.1).toFixed(1),b[k]]));
+}
+
+/* agents */
+function renderAgents(){
+  const a=agg();
+  const roles=[
+    ["Planner","decide","Plans the read-only tool calls before anything runs. Never calls a tool itself, so the plan is inspectable first."],
+    ["Worker","execute","Runs one allow-listed tool at a time. A tool outside the list is refused in code. Every call is logged."],
+    ["Reviewer","validate","Checks each recommendation cites retrieved data. Accepts, sends back for one bounded retry, or escalates to a human."],
+  ];
+  document.getElementById("ag-pipe").innerHTML=roles.map((r,i)=>`
+    <div class="pipe-node"><div class="role">${r[1]}</div><div class="nm">${r[0]}</div><div class="ds">${r[2]}</div></div>
+    ${i<roles.length-1?'<div class="pipe-arrow">&rarr;</div>':''}`).join("");
+  document.getElementById("ag-stats").innerHTML=[
+    ["Runs",a.n,"this session"],["Accepted",a.n-a.esc,"passed validation"],
+    ["Escalated",a.esc,"sent to a human"],["Allow-listed tools",3,"read-only"],["Writes",0,"none"],
+  ].map(c=>`<div class="card"><div class="k">${c[0]}</div><div class="v">${c[1]}</div><div class="s">${c[2]}</div></div>`).join("");
+}
+
+/* ROI */
+function money(n){return "Rs " + Math.round(n).toLocaleString("en-IN");}
+function computeROI(){
+  const g=id=>parseFloat(document.getElementById(id).value)||0;
+  const leads=g("r-leads")*12, mins=g("r-mins"), cpm=g("r-cpm"), lift=g("r-lift")/100, margin=g("r-margin"), cost=g("r-cost")*12;
+  const labor=leads*mins*cpm, revenue=leads*lift*margin, benefit=labor+revenue, net=benefit-cost;
+  document.getElementById("o-benefit").textContent=money(benefit);
+  document.getElementById("o-cost").textContent=money(cost);
+  document.getElementById("o-net").textContent=money(net);
+  document.getElementById("o-roi").textContent=cost>0?(net/cost).toFixed(1)+"x":"-";
+}
+["r-leads","r-mins","r-cpm","r-lift","r-margin","r-cost"].forEach(id=>document.getElementById(id).addEventListener("input",computeROI));
+
+/* models (static reference) */
+const MODELS=[
+  ["Claude (Anthropic)","Medium","Fast","Very large","Strong reasoning, reliable tool use, long context"],
+  ["GPT (OpenAI)","Medium-High","Fast","Large","General purpose, broad ecosystem"],
+  ["Gemini (Google)","Low-Medium","Fast","Very large","Multimodal, long context"],
+  ["Llama (Meta, open)","Low (self-host)","Varies","Medium-Large","On-premise, full data control"],
+  ["Mistral (open)","Low","Fast","Medium","Cost-efficient, on-premise"],
+];
+function renderModels(){
+  document.getElementById("model-table").innerHTML=
+    "<thead><tr><th>Model</th><th>Relative cost</th><th>Latency</th><th>Context</th><th>Best for</th></tr></thead><tbody>"+
+    MODELS.map(m=>`<tr><td><b>${m[0]}</b></td><td>${m[1]}</td><td>${m[2]}</td><td>${m[3]}</td><td>${m[4]}</td></tr>`).join("")+"</tbody>";
+  document.getElementById("model-note").textContent=
+    "Best fit for advisory lead triage (short structured reasoning, read-only tool calls, an audit trail): a mid-cost model with strong reasoning and reliable tool use. The pipeline is model-agnostic, so the choice can change per workflow. Ranking here is qualitative; a data-driven recommendation would need a benchmark harness on your own tasks (separate scope).";
+}
+
+/* triage (real workflow) */
+function counts(){
+  document.getElementById('c-pending').textContent=data.filter(d=>d.status==='pending').length;
+  document.getElementById('c-accepted').textContent=data.filter(d=>d.status==='accepted').length;
+  document.getElementById('c-adjusted').textContent=data.filter(d=>d.status==='adjusted').length;
+}
+function render(){
+  counts();
+  const q=(document.getElementById('search').value||'').toLowerCase();
+  const rows=document.getElementById('rows');
+  let list=data.filter(d=>d.status===currentTab)
+    .filter(d=>!q || (d.co+' '+d.id+' '+d.contact).toLowerCase().includes(q))
+    .sort((a,b)=>ORDER[a.priority]-ORDER[b.priority] || b.conf-a.conf);
+  rows.innerHTML = list.length? list.map(d=>`
+    <tr class="row" onclick="select('${d.id}')">
+      <td><span class="chip ${d.priority}">${d.priority}</span></td>
+      <td><div class="lead-name">${d.co}</div><div class="lead-id">${d.id} &middot; ${d.contact}</div></td>
+      <td>${ACTION_LABEL[d.action]}</td>
+      <td><div class="conf"><div class="track"><div class="fill" style="width:${Math.round(d.conf*100)}%"></div></div><span>${d.conf.toFixed(2)}</span></div></td>
+      <td class="age">${d.age}</td>
+    </tr>`).join('')
+    : `<tr><td colspan="5" style="padding:26px;text-align:center;color:var(--muted)">No ${currentTab} recommendations.</td></tr>`;
+}
+function select(id){
+  selected=data.find(d=>d.id===id); if(!selected) return;
+  showView('triage');
+  document.getElementById('empty').style.display='none';
+  const c=document.getElementById('dcontent'); c.style.display='flex';
+  const d=selected, ri=d.run_info, done=d.status!=='pending';
+  c.innerHTML=`
+    <div class="dhead"><div class="co">${d.co} <span style="color:var(--muted);font-weight:500;font-size:13px">${d.id}</span></div>
+      <div class="meta">${d.contact} &middot; ${d.source} &middot; created ${d.created} &middot; Run ${d.run}</div></div>
+    <div class="drow">
+      <div class="kv"><div class="k">Priority</div><div class="v"><span class="chip ${d.priority}">${d.priority}</span></div></div>
+      <div class="kv"><div class="k">Confidence</div><div class="v">${d.conf.toFixed(2)}</div></div>
+      <div class="kv"><div class="k">Recommended action</div><div class="v action-v">${ACTION_LABEL[d.action]}</div></div>
+    </div>
+    <div class="sec-title">Why this recommendation</div>
+    <ul class="evidence">${d.evidence.map(e=>`<li><span class="claim">${e[0]}</span><span class="src">source: ${e[1]}</span></li>`).join('')}</ul>
+    <div class="runinfo"><span>Run: ${ri.calls} tool calls &middot; 0 writes &middot; ${ri.ms}s &middot; ${ri.tokens} tokens</span>
+      <button class="link" onclick="openLog()">View log &rarr;</button></div>
+    <div class="actions">
+      ${done? `<span style="color:var(--ok);font-weight:700">${d.status==='accepted'?'Accepted':'Adjusted'} &check;</span>`
+        : `<button class="btn primary" onclick="decide('accepted')">Accept</button>
+           <select class="btn" id="adj"><option value="">Adjust action...</option>${ACTIONS.map(a=>`<option value="${a}">${ACTION_LABEL[a]}</option>`).join('')}</select>
+           <button class="btn" onclick="requestInfo()">Request info</button>`}
+    </div>`;
+  const sel=document.getElementById('adj');
+  if(sel) sel.onchange=()=>{ if(sel.value){selected.action=sel.value; decide('adjusted');} };
+}
+function useFree(){ if(freeUsed){ openUpgrade(); return false; } freeUsed=true; updatePlanBadge(); return true; }
+function updatePlanBadge(){ var b=document.getElementById('planbadge'); if(b) b.textContent = freeUsed ? 'Free plan - used' : 'Free plan'; }
+function openUpgrade(){ document.getElementById('umodal').classList.add('open'); document.getElementById('uscrim').classList.add('open'); }
+function closeUpgrade(){ document.getElementById('umodal').classList.remove('open'); document.getElementById('uscrim').classList.remove('open'); }
+function contactProvider(){ closeUpgrade(); banner('Thanks - we will share plans and pricing shortly.'); }
+function renderPlans(){
+  var plans=[
+    ["Free","Rs 0","1 workflow run",["1 lead-triage run","Explainable recommendations","Full audit trail"],true],
+    ["Team","Contact us","for plans & pricing",["Unlimited triage runs","Connect one system","Priority support"],false],
+    ["Enterprise","Contact us","for plans & pricing",["Multiple workflows & systems","SSO, roles & governance","Dedicated onboarding"],false],
+  ];
+  document.getElementById("plan-cards").innerHTML=plans.map(function(p){
+    return '<div class="card plan"><div class="pname">'+p[0]+'</div><div class="pprice">'+p[1]+'</div><div class="psub">'+p[2]+'</div>'+
+      '<ul>'+p[3].map(function(f){return "<li>"+f+"</li>";}).join("")+'</ul>'+
+      (p[4]?'<div class="cur">Current plan</div>':'<button class="btn primary" onclick="contactProvider()">Contact provider</button>')+'</div>';
+  }).join("");
+}
+function decide(status){ if(!useFree()) return; selected.status=status; banner(`${selected.co} (${selected.id}) marked ${status}. Free run used - subscribe to automate the rest.`); render(); select(selected.id); }
+function requestInfo(){ if(!useFree()) return; selected.status='adjusted'; selected.action='request_more_information'; banner(`${selected.co} (${selected.id}) set to Request info. Free run used.`); render(); select(selected.id); }
+function banner(msg){ const b=document.getElementById('banner'); b.textContent=msg; b.style.display='block'; clearTimeout(b._t); b._t=setTimeout(()=>b.style.display='none',3200); }
+function openLog(){ document.getElementById('log-run').textContent=selected.run;
+  document.getElementById('log').innerHTML=selected.log.map((s,i)=>`
+    <div class="step"><span class="n">${i+1}</span><span class="op">${s[0]}</span><span class="arg">${s[1]}</span>
+      <span class="status-ok">${s[0]==='validate'?'PASS':'ok'}</span></div>`).join('');
+  document.getElementById('drawer').classList.add('open'); document.getElementById('scrim').classList.add('open'); }
+function closeLog(){ document.getElementById('drawer').classList.remove('open'); document.getElementById('scrim').classList.remove('open'); }
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active')); t.classList.add('active'); currentTab=t.dataset.tab; render(); });
+
+/* boot */
+function renderAll(){ render(); renderDashboard(); renderAnalytics(); renderAgents(); renderModels(); renderPlans(); computeROI(); }
+function _mark(t){ const el=document.getElementById('srcbadge'); if(el) el.textContent=t; }
+function _hasView(){ return new URLSearchParams(location.search).get('view'); }
+function _auto(){ const q=new URLSearchParams(location.search); const v=q.get('view'); if(v) showView(v);
+  const l=q.get('lead'); if(l){ select(l); if(q.get('log')) openLog(); } if(q.get('upgrade')) openUpgrade(); }
+async function boot(){
+  try{ const r=await fetch('api/leads',{cache:'no-store'});
+    if(r.ok){ data=await r.json(); _mark('live engine'); renderAll(); if(!_hasView()) showView('dashboard'); _auto(); return; } }catch(e){}
+  if(window.__ALLXAI_DATA__){ data=window.__ALLXAI_DATA__; _mark('engine output'); renderAll(); if(!_hasView()) showView('dashboard'); _auto(); return; }
+  data=SAMPLE; _mark('sample'); renderAll(); showView('dashboard'); _auto();
+}
+boot();
+</script>
+</body>
+</html>
