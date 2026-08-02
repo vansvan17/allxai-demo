@@ -4,88 +4,73 @@
 <meta charset="utf-8" />
 <meta name="robots" content="noindex,nofollow" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>ALLXAI - Sign in</title>
+<title>ALLXAI - Loading</title>
 <style>
-  :root{
-    --bg:#070b12; --panel:#0d1420; --panel2:#0a111c; --line:#1b2838;
-    --ink:#e8f0f7; --muted:#8598ad; --cyan:#22c9e0; --cyan2:#2f8cff;
-  }
+  :root{ --bg:#070b12; --ink:#e8f0f7; --muted:#8598ad; --cyan:#22c9e0; --cyan2:#2f8cff; --line:#1b2838; }
+  @media (prefers-reduced-motion: reduce){ .ring,.core,.bar-fill{animation:none !important} }
   *{box-sizing:border-box}
-  body{margin:0;min-height:100vh;background:
-      radial-gradient(1200px 600px at 15% 40%, rgba(34,201,224,.10), transparent 60%),
-      radial-gradient(900px 500px at 85% 70%, rgba(47,140,255,.08), transparent 60%),
+  html,body{height:100%}
+  body{margin:0;background:
+      radial-gradient(1100px 600px at 50% 38%, rgba(34,201,224,.12), transparent 62%),
+      radial-gradient(800px 500px at 50% 90%, rgba(47,140,255,.08), transparent 60%),
       var(--bg);
     color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    -webkit-font-smoothing:antialiased;display:grid;place-items:center;padding:24px}
-  .wrap{width:100%;max-width:1080px;display:grid;grid-template-columns:1.05fr .95fr;
-    gap:0;border:1px solid var(--line);border-radius:20px;overflow:hidden;
-    background:linear-gradient(180deg,rgba(255,255,255,.02),transparent)}
-  @media (max-width:820px){ .wrap{grid-template-columns:1fr} .left{display:none} }
-  /* left brand panel */
-  .left{position:relative;padding:52px 46px;background:
-      radial-gradient(600px 400px at 30% 60%, rgba(34,201,224,.12), transparent 65%), var(--panel2);
-    display:flex;flex-direction:column;justify-content:space-between;min-height:560px;border-right:1px solid var(--line)}
-  .logo{font-size:40px;font-weight:800;letter-spacing:1px}
-  .logo .x{color:var(--cyan)}
-  .tag{color:var(--cyan);font-weight:600;margin-top:6px;letter-spacing:.5px}
-  .headline{margin-top:34px;font-size:24px;font-weight:700;line-height:1.35;max-width:320px}
-  .orb{position:relative;align-self:center;width:230px;height:230px;margin:26px 0}
-  .orb .core{position:absolute;inset:34%;border-radius:50%;
-    background:radial-gradient(circle at 40% 35%, #7ff0ff, var(--cyan) 45%, #1264c9 90%);
-    box-shadow:0 0 60px rgba(34,201,224,.55), inset 0 0 30px rgba(255,255,255,.35)}
-  .orb .ring{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(34,201,224,.35)}
-  .orb .ring.r2{inset:14%;border-color:rgba(34,201,224,.25)}
-  .orb .ring.r3{inset:26%;border-color:rgba(47,140,255,.30)}
-  .secure{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px}
-  .secure .s{width:30px;height:30px;border-radius:8px;background:rgba(34,201,224,.12);color:var(--cyan);display:grid;place-items:center;font-size:15px}
-  /* right form */
-  .right{padding:52px 46px;background:var(--panel)}
-  .right h1{font-size:26px;margin:0 0 4px}
-  .right .sub{color:var(--muted);margin-bottom:26px;font-size:14px}
-  label{display:block;font-size:13px;color:var(--muted);margin:14px 0 6px}
-  .inp{position:relative}
-  .inp input{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:10px;background:var(--panel2);color:var(--ink);font-size:14px}
-  .inp input:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(34,201,224,.15)}
-  .eye{position:absolute;right:12px;top:12px;color:var(--muted);cursor:pointer;background:none;border:none;font-size:15px}
-  .forgot{text-align:right;margin-top:8px}
-  .forgot a{color:var(--cyan);font-size:12.5px;text-decoration:none}
-  .btn{width:100%;margin-top:20px;padding:13px;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;
-    background:linear-gradient(90deg,var(--cyan),var(--cyan2));color:#04202a}
-  .or{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:12.5px;margin:20px 0}
-  .or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
-  .oauth{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .oauth button{padding:11px;border:1px solid var(--line);border-radius:10px;background:var(--panel2);color:var(--ink);font-weight:600;font-size:13.5px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
-  .signup{text-align:center;margin-top:22px;color:var(--muted);font-size:13.5px}
-  .signup a{color:var(--cyan);text-decoration:none;font-weight:600}
-  .demo-note{margin-top:22px;text-align:center;font-size:11.5px;color:var(--muted);font-style:italic}
+    -webkit-font-smoothing:antialiased;display:grid;place-items:center;min-height:100vh;padding:24px}
+  .stage{display:flex;flex-direction:column;align-items:center;text-align:center;width:100%;max-width:420px}
+  /* logo icon (placeholder mark - swap for real asset) */
+  .mark{filter:drop-shadow(0 12px 34px rgba(34,201,224,.4))}
+  .mark svg{display:block}
+  .wordmark{margin-top:20px;font-size:34px;font-weight:800;letter-spacing:1.5px}
+  .wordmark .x{color:var(--cyan)}
+  .tag{margin-top:6px;color:var(--cyan);font-weight:600;letter-spacing:.5px;font-size:14px}
+  /* animated orb */
+  .orb{position:relative;width:150px;height:150px;margin:34px 0 26px}
+  .orb .core{position:absolute;inset:38%;border-radius:50%;
+    background:radial-gradient(circle at 40% 35%, #9ff4ff, var(--cyan) 45%, #1264c9 92%);
+    box-shadow:0 0 46px rgba(34,201,224,.6), inset 0 0 22px rgba(255,255,255,.4);
+    animation:pulse 2s ease-in-out infinite}
+  .orb .ring{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(34,201,224,.35);animation:spin 6s linear infinite}
+  .orb .ring.r2{inset:16%;border-color:rgba(34,201,224,.28);animation-duration:9s;animation-direction:reverse}
+  .orb .ring.r3{inset:30%;border-color:rgba(47,140,255,.32);animation-duration:4.5s}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes pulse{0%,100%{transform:scale(1);opacity:.92}50%{transform:scale(1.08);opacity:1}}
+  /* progress */
+  .track{width:280px;max-width:78vw;height:6px;border-radius:999px;background:#132030;overflow:hidden}
+  .bar-fill{height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--cyan),var(--cyan2));transition:width .18s ease}
+  .row{display:flex;justify-content:space-between;width:280px;max-width:78vw;margin-top:10px;color:var(--muted);font-size:12.5px}
+  .pct{font-variant-numeric:tabular-nums;color:var(--ink);font-weight:700}
+  .soon{margin-top:30px;font-size:12px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase}
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="left">
-      <div>
-        <div class="logo">ALL<span class="x">X</span>AI</div>
-        <div class="tag">Together With AI</div>
-        <div class="headline">Your AI-Powered Business Platform</div>
-      </div>
-      <div class="orb"><div class="ring"></div><div class="ring r2"></div><div class="ring r3"></div><div class="core"></div></div>
-      <div class="secure"><span class="s">&#128274;</span><div><b>Enterprise-grade security</b><br><span style="font-size:12px">Your data is safe with us</span></div></div>
+  <div class="stage">
+    <div class="mark" aria-label="ALLXAI logo">
+      <svg viewBox="0 0 120 140" width="78" height="91" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="60,6 108,74 12,74" fill="#1f7d97"/>
+        <polygon points="14,82 106,82 60,140" fill="#16c7d6"/>
+        <polygon points="60,30 76,56 44,56" fill="#ffffff"/>
+        <polygon points="60,116 76,92 44,92" fill="#ffffff"/>
+        <polygon points="4,52 26,52 19,66 -3,66" fill="#17cfe0"/>
+        <polygon points="116,88 94,88 101,102 123,102" fill="#1f7d97"/>
+      </svg>
     </div>
-    <div class="right">
-      <h1>Welcome back</h1>
-      <div class="sub">Login to your account</div>
-      <label>Email address</label>
-      <div class="inp"><input type="email" placeholder="Enter your email" /></div>
-      <label>Password</label>
-      <div class="inp"><input id="pw" type="password" placeholder="Enter your password" /><button class="eye" onclick="var p=document.getElementById('pw');p.type=p.type==='password'?'text':'password'">&#128065;</button></div>
-      <div class="forgot"><a href="#" onclick="document.getElementById('fpnote').style.display='block';return false">Forgot password?</a></div>
-      <div id="fpnote" style="display:none;font-size:11.5px;color:var(--muted);margin-top:6px;text-align:right">Demonstration only - password reset is not enabled in the MVP.</div>
-      <button class="btn" onclick="location.href='app.html'">Login</button>
-      <div class="or">or continue with</div>
-      <div class="oauth"><button onclick="location.href='app.html'">G&nbsp; Google</button><button onclick="location.href='app.html'">&#9670;&nbsp; Microsoft</button></div>
-      <div class="signup">Don't have an account? <a href="#" onclick="location.href='app.html';return false">Sign up</a></div>
-      <div class="demo-note">Demonstration sign-in - not connected to authentication in the MVP.</div>
-    </div>
+    <div class="wordmark">ALL<span class="x">X</span>AI</div>
+    <div class="tag">Together With AI</div>
+    <div class="orb"><div class="ring"></div><div class="ring r2"></div><div class="ring r3"></div><div class="core"></div></div>
+    <div class="track"><div class="bar-fill" id="bar"></div></div>
+    <div class="row"><span id="status">Starting up</span><span class="pct" id="pct">0%</span></div>
+    <div class="soon">Loading soon</div>
   </div>
+<script>
+  var steps=[[18,"Starting up"],[42,"Loading workspace"],[68,"Preparing your dashboard"],[88,"Almost there"],[100,"Ready"]];
+  var bar=document.getElementById('bar'), pct=document.getElementById('pct'), status=document.getElementById('status');
+  var i=0;
+  function tick(){
+    if(i>=steps.length){ setTimeout(function(){ location.href='login.html'; }, 500); return; }
+    var s=steps[i++]; bar.style.width=s[0]+'%'; pct.textContent=s[0]+'%'; status.textContent=s[1];
+    setTimeout(tick, 620);
+  }
+  setTimeout(tick, 350);
+</script>
 </body>
 </html>
