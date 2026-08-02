@@ -78,11 +78,12 @@
       <div class="inp"><input type="email" placeholder="Enter your email" /></div>
       <label>Password</label>
       <div class="inp"><input id="pw" type="password" placeholder="Enter your password" /><button class="eye" onclick="var p=document.getElementById('pw');p.type=p.type==='password'?'text':'password'">&#128065;</button></div>
-      <div class="forgot"><a href="#">Forgot password?</a></div>
+      <div class="forgot"><a href="#" onclick="document.getElementById('fpnote').style.display='block';return false">Forgot password?</a></div>
+      <div id="fpnote" style="display:none;font-size:11.5px;color:var(--muted);margin-top:6px;text-align:right">Demonstration only - password reset is not enabled in the MVP.</div>
       <button class="btn" onclick="location.href='app.html'">Login</button>
       <div class="or">or continue with</div>
-      <div class="oauth"><button>G&nbsp; Google</button><button>&#9670;&nbsp; Microsoft</button></div>
-      <div class="signup">Don't have an account? <a href="#">Sign up</a></div>
+      <div class="oauth"><button onclick="location.href='app.html'">G&nbsp; Google</button><button onclick="location.href='app.html'">&#9670;&nbsp; Microsoft</button></div>
+      <div class="signup">Don't have an account? <a href="#" onclick="location.href='app.html';return false">Sign up</a></div>
       <div class="demo-note">Demonstration sign-in - not connected to authentication in the MVP.</div>
     </div>
   </div>
