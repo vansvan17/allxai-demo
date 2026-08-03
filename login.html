@@ -4,6 +4,7 @@
 <meta charset="utf-8" />
 <meta name="robots" content="noindex,nofollow" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20140%27%3E%3Cpolygon%20points%3D%2760%2C6%20108%2C74%2012%2C74%27%20fill%3D%27%231f86a0%27/%3E%3Cpolygon%20points%3D%2714%2C82%20106%2C82%2060%2C140%27%20fill%3D%27%2316c7d6%27/%3E%3Cpolygon%20points%3D%2760%2C30%2076%2C56%2044%2C56%27%20fill%3D%27white%27/%3E%3Cpolygon%20points%3D%2760%2C116%2076%2C92%2044%2C92%27%20fill%3D%27white%27/%3E%3C/svg%3E" />
 <title>ALLXAI - Sign in</title>
 <style>
   :root{
@@ -25,7 +26,9 @@
   .left{position:relative;padding:52px 46px;background:
       radial-gradient(600px 400px at 30% 60%, rgba(34,201,224,.12), transparent 65%), var(--panel2);
     display:flex;flex-direction:column;justify-content:space-between;min-height:560px;border-right:1px solid var(--line)}
-  .logo{font-size:40px;font-weight:800;letter-spacing:1px}
+  .brandmark{width:66px;margin-bottom:14px;animation:axIn .6s ease both, axFloat 4.6s ease-in-out .6s infinite}
+  .brandmark svg{width:66px;height:auto;display:block}
+  .logo{font-size:40px;font-weight:800;letter-spacing:1px;animation:axIn .6s ease .12s both}
   .logo .x{color:var(--cyan)}
   .tag{color:var(--cyan);font-weight:600;margin-top:6px;letter-spacing:.5px}
   .headline{margin-top:34px;font-size:24px;font-weight:700;line-height:1.35;max-width:320px}
@@ -58,12 +61,16 @@
   .signup{text-align:center;margin-top:22px;color:var(--muted);font-size:13.5px}
   .signup a{color:var(--cyan);text-decoration:none;font-weight:600}
   .demo-note{margin-top:22px;text-align:center;font-size:11.5px;color:var(--muted);font-style:italic}
+  @keyframes axIn{from{opacity:0;transform:scale(.82) translateY(6px)}to{opacity:1;transform:none}}
+  @keyframes axFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+  @media (prefers-reduced-motion: reduce){ .axmark,.wordmark,.brandmark,.logo{animation:none !important} }
 </style>
 </head>
 <body>
   <div class="wrap">
     <div class="left">
       <div>
+        <div class="brandmark"><svg class="axmark" viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg" aria-label="ALLXAI"><polygon points="60,6 108,74 12,74" fill="#1f86a0"/><polygon points="14,82 106,82 60,140" fill="#16c7d6"/><polygon points="60,30 76,56 44,56" fill="#ffffff"/><polygon points="60,116 76,92 44,92" fill="#ffffff"/><polygon points="4,52 26,52 19,66 -3,66" fill="#17cfe0"/><polygon points="116,88 94,88 101,102 123,102" fill="#1f86a0"/></svg></div>
         <div class="logo">ALL<span class="x">X</span>AI</div>
         <div class="tag">Together With AI</div>
         <div class="headline">Your AI-Powered Business Platform</div>

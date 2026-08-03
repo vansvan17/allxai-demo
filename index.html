@@ -4,6 +4,7 @@
 <meta charset="utf-8" />
 <meta name="robots" content="noindex,nofollow" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20140%27%3E%3Cpolygon%20points%3D%2760%2C6%20108%2C74%2012%2C74%27%20fill%3D%27%231f86a0%27/%3E%3Cpolygon%20points%3D%2714%2C82%20106%2C82%2060%2C140%27%20fill%3D%27%2316c7d6%27/%3E%3Cpolygon%20points%3D%2760%2C30%2076%2C56%2044%2C56%27%20fill%3D%27white%27/%3E%3Cpolygon%20points%3D%2760%2C116%2076%2C92%2044%2C92%27%20fill%3D%27white%27/%3E%3C/svg%3E" />
 <title>ALLXAI - Loading</title>
 <style>
   :root{ --bg:#070b12; --ink:#e8f0f7; --muted:#8598ad; --cyan:#22c9e0; --cyan2:#2f8cff; --line:#1b2838; }
@@ -18,9 +19,9 @@
     -webkit-font-smoothing:antialiased;display:grid;place-items:center;min-height:100vh;padding:24px}
   .stage{display:flex;flex-direction:column;align-items:center;text-align:center;width:100%;max-width:420px}
   /* logo icon (placeholder mark - swap for real asset) */
-  .mark{filter:drop-shadow(0 12px 34px rgba(34,201,224,.4))}
+  .mark{filter:drop-shadow(0 12px 34px rgba(34,201,224,.4));animation:axIn .6s ease both, axFloat 4.6s ease-in-out .6s infinite}
   .mark svg{display:block}
-  .wordmark{margin-top:20px;font-size:34px;font-weight:800;letter-spacing:1.5px}
+  .wordmark{margin-top:20px;font-size:34px;font-weight:800;letter-spacing:1.5px;animation:axIn .6s ease .15s both}
   .wordmark .x{color:var(--cyan)}
   .tag{margin-top:6px;color:var(--cyan);font-weight:600;letter-spacing:.5px;font-size:14px}
   /* animated orb */
@@ -40,6 +41,9 @@
   .row{display:flex;justify-content:space-between;width:280px;max-width:78vw;margin-top:10px;color:var(--muted);font-size:12.5px}
   .pct{font-variant-numeric:tabular-nums;color:var(--ink);font-weight:700}
   .soon{margin-top:30px;font-size:12px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase}
+  @keyframes axIn{from{opacity:0;transform:scale(.82) translateY(6px)}to{opacity:1;transform:none}}
+  @keyframes axFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+  @media (prefers-reduced-motion: reduce){ .axmark,.wordmark,.brandmark,.logo{animation:none !important} }
 </style>
 </head>
 <body>
