@@ -112,6 +112,22 @@
   table.q tr:last-child td{border-bottom:none}
   tr.row{cursor:pointer}
   tr.row:hover{background:var(--accent-soft)}
+  .chatbtn{position:fixed;right:20px;bottom:20px;width:56px;height:56px;border-radius:50%;border:none;cursor:pointer;background:linear-gradient(135deg,#22c9e0,#2f8cff);color:#04202a;font-size:24px;box-shadow:0 8px 26px rgba(34,201,224,.4);z-index:40;display:grid;place-items:center}
+  .chatpanel{position:fixed;right:20px;bottom:88px;width:340px;max-width:calc(100vw - 40px);height:460px;max-height:72vh;background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:0 20px 50px rgba(0,0,0,.55);z-index:40;display:none;flex-direction:column;overflow:hidden}
+  .chatpanel.open{display:flex}
+  .chathead{padding:13px 15px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px}
+  .chathead .dot{width:9px;height:9px;border-radius:50%;background:var(--ok);flex-shrink:0}
+  .chathead b{font-size:14px} .chathead .sub{font-size:11px;color:var(--muted)}
+  .chathead .x{margin-left:auto;background:none;border:none;color:var(--muted);font-size:19px;cursor:pointer;line-height:1}
+  .chatmsgs{flex:1;overflow:auto;padding:14px;display:flex;flex-direction:column;gap:9px}
+  .msg{max-width:84%;padding:9px 12px;border-radius:12px;font-size:13px;line-height:1.5}
+  .msg.bot{background:var(--accent-soft);color:var(--ink);align-self:flex-start;border-bottom-left-radius:4px}
+  .msg.me{background:linear-gradient(135deg,#22c9e0,#2f8cff);color:#04202a;align-self:flex-end;border-bottom-right-radius:4px;font-weight:600}
+  .chipset{display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 10px}
+  .chip2{font-size:11.5px;padding:5px 9px;border:1px solid var(--line);border-radius:999px;color:var(--accent);cursor:pointer;background:var(--panel)}
+  .chatin{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line)}
+  .chatin input{flex:1;padding:9px 11px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--ink);font-size:13px}
+  .chatin button{padding:9px 13px;border:none;border-radius:9px;background:linear-gradient(135deg,#22c9e0,#2f8cff);color:#04202a;font-weight:700;cursor:pointer}
   .chip{display:inline-block;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:.4px}
   .chip.HIGH{background:var(--high-bg);color:var(--high)} .chip.MEDIUM{background:var(--med-bg);color:var(--med)} .chip.LOW{background:var(--low-bg);color:var(--low)}
   .lead-name{font-weight:650} .lead-id{color:var(--muted);font-size:12px}
@@ -176,7 +192,7 @@
   .plan li:last-child{border-bottom:none}
   .plan .cur{margin-top:auto;text-align:center;padding:9px;border-radius:8px;background:var(--low-bg);color:var(--muted);font-weight:650;font-size:13px}
 </style>
-<script>window.__ALLXAI_DATA__ = [{"run": "R-4471-3501", "id": "L-4471", "co": "Acme Corp", "contact": "J. Rao", "source": "Web form", "created": "today", "priority": "HIGH", "conf": 0.95, "action": "route_to_sales", "age": "now", "status": "pending", "evidence": [["Explicit buying intent in message", "lead.inbound_message"], ["Mid Market company fit", "company.size_band"], ["3 recent activity events", "activities"]], "run_info": {"calls": 3, "ms": 0.07, "tokens": 150}, "log": [["decide", "plan: get_lead, get_company, get_activity_history"], ["get_lead", "{\"lead_id\": \"L-4471\"}"], ["get_company", "{\"company_id\": \"C-889\"}"], ["get_activity_history", "{\"lead_id\": \"L-4471\", \"limit\": 20}"], ["reason", "recommendation formed"], ["validate", "all criteria met"]]}, {"run": "R-4470-3501", "id": "L-4470", "co": "Beta Ltd", "contact": "M. Shah", "source": "Web form", "created": "today", "priority": "MEDIUM", "conf": 0.67, "action": "request_more_information", "age": "now", "status": "pending", "evidence": [["General interest expressed", "lead.inbound_message"], ["Small Business company", "company.size_band"], ["1 recent activity events", "activities"]], "run_info": {"calls": 3, "ms": 0.04, "tokens": 116}, "log": [["decide", "plan: get_lead, get_company, get_activity_history"], ["get_lead", "{\"lead_id\": \"L-4470\"}"], ["get_company", "{\"company_id\": \"C-701\"}"], ["get_activity_history", "{\"lead_id\": \"L-4470\", \"limit\": 20}"], ["reason", "recommendation formed"], ["validate", "all criteria met"]]}, {"run": "R-4468-3501", "id": "L-4468", "co": "Gamma Inc", "contact": "P. Iyer", "source": "Referral", "created": "today", "priority": "HIGH", "conf": 0.91, "action": "request_more_information", "age": "now", "status": "pending", "evidence": [["General interest expressed", "lead.inbound_message"], ["Enterprise company fit", "company.size_band"], ["2 recent activity events", "activities"]], "run_info": {"calls": 3, "ms": 0.03, "tokens": 132}, "log": [["decide", "plan: get_lead, get_company, get_activity_history"], ["get_lead", "{\"lead_id\": \"L-4468\"}"], ["get_company", "{\"company_id\": \"C-655\"}"], ["get_activity_history", "{\"lead_id\": \"L-4468\", \"limit\": 20}"], ["reason", "recommendation formed"], ["validate", "all criteria met"]]}, {"run": "R-4467-3501", "id": "L-4467", "co": "Delta Co", "contact": "S. Nair", "source": "Web form", "created": "today", "priority": "LOW", "conf": 0.55, "action": "route_to_nurture", "age": "now", "status": "pending", "evidence": [["No explicit buying intent stated", "lead.inbound_message"], ["Small Business company", "company.size_band"], ["No recent activity", "activities"]], "run_info": {"calls": 3, "ms": 0.13, "tokens": 98}, "log": [["decide", "plan: get_lead, get_company, get_activity_history"], ["get_lead", "{\"lead_id\": \"L-4467\"}"], ["get_company", "{\"company_id\": \"C-540\"}"], ["get_activity_history", "{\"lead_id\": \"L-4467\", \"limit\": 20}"], ["reason", "recommendation formed"], ["validate", "all criteria met"]]}];</script>
+<script>window.__ALLXAI_DATA__ = [{"run": "R-4471-3885", "id": "L-4471", "co": "Acme Corp", "contact": "J. Rao", "source": "Web form", "created": "today", "priority": "HIGH", "conf": 0.95, "action": "route_to_sales", "age": "now", "status": "pending", "evidence": [["Explicit buying intent in message", "lead.inbound_message"], ["Mid Market company fit", "company.size_band"], ["3 recent activity events", "activities"]], "run_info": {"calls": 3, "ms": 0.08, "tokens": 150}, "log": [["decide", "plan: get_lead, get_company, get_activity_history"], ["get_lead", "{\"lead_id\": \"L-4471\"}"], ["get_company", "{\"company_id\": \"C-889\"}"], ["get_activity_history", "{\"lead_id\": \"L-4471\", \"limit\": 20}"], ["reason", "recommendation formed"], ["validate", "all criteria met"]]}, {"run": "R-4470-3885", "id": "L-4470", "co": "Beta Ltd", "contact": "M. Shah", "source": "Web form", "created": "today", "priority": "MEDIUM", "conf": 0.67, "action": "request_more_information", "age": "now", "status": "pending", "evidence": [["General interest expressed", "lead.inbound_message"], ["Small Business company", "company.size_band"], ["1 recent activity events", "activities"]], "run_info": {"calls": 3, "ms": 0.04, "tokens": 116}, "log": [["decide", "plan: get_lead, get_company, get_activity_history"], ["get_lead", "{\"lead_id\": \"L-4470\"}"], ["get_company", "{\"company_id\": \"C-701\"}"], ["get_activity_history", "{\"lead_id\": \"L-4470\", \"limit\": 20}"], ["reason", "recommendation formed"], ["validate", "all criteria met"]]}, {"run": "R-4468-3885", "id": "L-4468", "co": "Gamma Inc", "contact": "P. Iyer", "source": "Referral", "created": "today", "priority": "HIGH", "conf": 0.91, "action": "request_more_information", "age": "now", "status": "pending", "evidence": [["General interest expressed", "lead.inbound_message"], ["Enterprise company fit", "company.size_band"], ["2 recent activity events", "activities"]], "run_info": {"calls": 3, "ms": 0.03, "tokens": 132}, "log": [["decide", "plan: get_lead, get_company, get_activity_history"], ["get_lead", "{\"lead_id\": \"L-4468\"}"], ["get_company", "{\"company_id\": \"C-655\"}"], ["get_activity_history", "{\"lead_id\": \"L-4468\", \"limit\": 20}"], ["reason", "recommendation formed"], ["validate", "all criteria met"]]}, {"run": "R-4467-3885", "id": "L-4467", "co": "Delta Co", "contact": "S. Nair", "source": "Web form", "created": "today", "priority": "LOW", "conf": 0.55, "action": "route_to_nurture", "age": "now", "status": "pending", "evidence": [["No explicit buying intent stated", "lead.inbound_message"], ["Small Business company", "company.size_band"], ["No recent activity", "activities"]], "run_info": {"calls": 3, "ms": 0.13, "tokens": 98}, "log": [["decide", "plan: get_lead, get_company, get_activity_history"], ["get_lead", "{\"lead_id\": \"L-4467\"}"], ["get_company", "{\"company_id\": \"C-540\"}"], ["get_activity_history", "{\"lead_id\": \"L-4467\", \"limit\": 20}"], ["reason", "recommendation formed"], ["validate", "all criteria met"]]}];</script>
 </head>
 <body>
 <div class="app">
@@ -326,6 +342,18 @@
       <button class="btn primary" onclick="contactProvider()">Contact provider</button>
     </div>
   </div>
+</div>
+
+<button class="chatbtn" id="chatbtn" onclick="toggleChat()" aria-label="Open assistant">&#128172;</button>
+<div class="chatpanel" id="chatpanel">
+  <div class="chathead"><span class="dot"></span><div><b>ALLXAI Assistant</b><div class="sub">Ask about the platform</div></div><button class="x" onclick="toggleChat()">&times;</button></div>
+  <div class="chatmsgs" id="chatmsgs"></div>
+  <div class="chipset">
+    <span class="chip2" onclick="chatSuggest('How does it work?')">How does it work?</span>
+    <span class="chip2" onclick="chatSuggest('Pricing?')">Pricing?</span>
+    <span class="chip2" onclick="chatSuggest('Is it secure?')">Is it secure?</span>
+  </div>
+  <div class="chatin"><input id="chatinput" placeholder="Type a message..." onkeydown="if(event.key==='Enter')chatSend()"/><button onclick="chatSend()">Send</button></div>
 </div>
 
 <script>
@@ -529,6 +557,28 @@ function openLog(){ document.getElementById('log-run').textContent=selected.run;
 function closeLog(){ document.getElementById('drawer').classList.remove('open'); document.getElementById('scrim').classList.remove('open'); }
 document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
   document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active')); t.classList.add('active'); currentTab=t.dataset.tab; render(); });
+
+/* chatbot - scripted assistant answering product questions from a built-in knowledge set */
+var CHAT_KB=[
+ {k:['hi','hello','hey','help','start'],a:"Hi! I'm the ALLXAI assistant. Ask me about lead triage, how it works, pricing, integrations, security, or the platform."},
+ {k:['what is','about','allxai','what does','overview'],a:"ALLXAI is an AI layer that triages your inbound leads. For each lead it reads the record and history, then recommends a next action with the evidence behind it - advisory and read-only."},
+ {k:['how','work','triage','process','pipeline'],a:"For each lead it plans the read-only tool calls, executes them one at a time, reasons a recommendation, and validates it. A person then accepts or adjusts. Every step is logged."},
+ {k:['price','pricing','cost','plan','subscri','tier'],a:"The first workflow run is free. For Team and Enterprise pricing, use the Contact option on the Plans & Pricing page."},
+ {k:['lead','queue','prioriti'],a:"Leads are prioritized High / Medium / Low with a recommended action and a confidence score. Open any lead to see the cited evidence and the full audit trail."},
+ {k:['audit','safe','secur','write','governance','compliance'],a:"It's read-only - zero writes to your systems - and every tool call and decision is logged, so any run is fully reconstructable for governance."},
+ {k:['integrat','crm','connect','system','api','sandbox'],a:"The workflow connects to one business system through a read-only tool contract (MCP). Integrating with your live system is the next phase."},
+ {k:['roi','return','saving','impact'],a:"Use the ROI Calculator in the app - enter your lead volume, time saved, and costs to see the estimated impact live."},
+ {k:['model','gpt','claude','gemini','llm'],a:"The pipeline is model-agnostic. See the Model Comparison page for a reference on cost, latency, and fit."},
+ {k:['contact','demo','sales','talk','human','reach'],a:"Happy to connect you - use the Contact option on the Plans page and the team will reach out."},
+ {k:['thank','bye','great','cool'],a:"You're welcome! Anything else about the platform?"}
+];
+function botReply(t){ t=(t||'').toLowerCase();
+  for(var i=0;i<CHAT_KB.length;i++){ for(var j=0;j<CHAT_KB[i].k.length;j++){ if(t.indexOf(CHAT_KB[i].k[j])>=0) return CHAT_KB[i].a; } }
+  return "I can help with lead triage, how the platform works, pricing, integrations, security, and models. Could you rephrase your question?"; }
+function chatAdd(who,text){ var m=document.createElement('div'); m.className='msg '+who; m.textContent=text; var box=document.getElementById('chatmsgs'); box.appendChild(m); box.scrollTop=box.scrollHeight; }
+function toggleChat(){ var p=document.getElementById('chatpanel'); p.classList.toggle('open'); if(p.classList.contains('open') && !p.dataset.init){ chatAdd('bot', botReply('hi')); p.dataset.init='1'; var ci=document.getElementById('chatinput'); if(ci) ci.focus(); } }
+function chatSend(){ var inp=document.getElementById('chatinput'); var t=inp.value.trim(); if(!t) return; chatAdd('me',t); inp.value=''; setTimeout(function(){ chatAdd('bot', botReply(t)); },280); }
+function chatSuggest(t){ chatAdd('me',t); setTimeout(function(){ chatAdd('bot', botReply(t)); },280); }
 
 /* boot */
 function renderTestimonials(){
