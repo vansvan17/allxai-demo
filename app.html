@@ -73,6 +73,15 @@
   .bar-track{height:12px;border-radius:999px;background:var(--line);overflow:hidden}
   .bar-fill{height:100%;background:linear-gradient(90deg,#22c9e0,#2f8cff);border-radius:999px}
   .bar-val{font-size:12.5px;text-align:right;font-variant-numeric:tabular-nums;font-weight:650}
+  /* recommendation rows (chip | company | action) */
+  .rec-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 12px;align-items:center;margin:10px 0}
+  .rec-row .chip{min-width:74px;justify-content:center}
+  .rec-row .bar-val{white-space:nowrap}
+  @media (max-width:430px){
+    .rec-row{grid-template-columns:auto 1fr;column-gap:10px;row-gap:1px}
+    .rec-row .chip{grid-row:1 / span 2;align-self:center}
+    .rec-row .bar-val{text-align:left;color:var(--accent)}
+  }
 
   /* pipeline */
   .pipe{display:flex;align-items:stretch;flex-wrap:wrap;gap:0}
@@ -107,7 +116,7 @@
   .bar{display:flex;align-items:center;gap:12px;margin-bottom:12px;color:var(--muted);font-size:12.5px}
   .search{margin-left:auto;padding:7px 12px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink);width:210px}
   .tbody{display:flex;gap:0;min-height:0}
-  .queue{flex:1;min-width:0}
+  .queue{flex:1;min-width:0;overflow-x:auto}
   table.q{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
   table.q th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);padding:12px 14px;border-bottom:1px solid var(--line);font-weight:700}
   table.q td{padding:13px 14px;border-bottom:1px solid var(--line);vertical-align:middle}
@@ -220,7 +229,7 @@
   @keyframes xspin{to{transform:rotate(360deg)}}
   @media (prefers-reduced-motion: reduce){ .x{animation:none !important} }
 </style>
-<script>window.__ALLXAI_DATA__ = [{"run": "R-4471-8979", "id": "L-4471", "co": "Acme Corp", "contact": "J. Rao", "source": "Web form", "created": "today", "priority": "HIGH", "conf": 0.95, "action": "route_to_sales", "age": "now", "status": "pending", "evidence": [["Explicit buying intent in message", "lead.inbound_message"], ["Mid Market company fit", "company.size_band"], ["3 recent activity events", "activities"]], "run_info": {"calls": 3, "ms": 0.08, "tokens": 150}, "log": [["decide", "plan: get_lead, get_company, get_activity_history"], ["get_lead", "{\"lead_id\": \"L-4471\"}"], ["get_company", "{\"company_id\": \"C-889\"}"], ["get_activity_history", "{\"lead_id\": \"L-4471\", \"limit\": 20}"], ["reason", "recommendation formed"], ["validate", "all criteria met"]]}, {"run": "R-4470-8979", "id": "L-4470", "co": "Beta Ltd", "contact": "M. Shah", "source": "Web form", "created": "today", "priority": "MEDIUM", "conf": 0.67, "action": "request_more_information", "age": "now", "status": "pending", "evidence": [["General interest expressed", "lead.inbound_message"], ["Small Business company", "company.size_band"], ["1 recent activity events", "activities"]], "run_info": {"calls": 3, "ms": 0.04, "tokens": 116}, "log": [["decide", "plan: get_lead, get_company, get_activity_history"], ["get_lead", "{\"lead_id\": \"L-4470\"}"], ["get_company", "{\"company_id\": \"C-701\"}"], ["get_activity_history", "{\"lead_id\": \"L-4470\", \"limit\": 20}"], ["reason", "recommendation formed"], ["validate", "all criteria met"]]}, {"run": "R-4468-8979", "id": "L-4468", "co": "Gamma Inc", "contact": "P. Iyer", "source": "Referral", "created": "today", "priority": "HIGH", "conf": 0.91, "action": "request_more_information", "age": "now", "status": "pending", "evidence": [["General interest expressed", "lead.inbound_message"], ["Enterprise company fit", "company.size_band"], ["2 recent activity events", "activities"]], "run_info": {"calls": 3, "ms": 0.03, "tokens": 132}, "log": [["decide", "plan: get_lead, get_company, get_activity_history"], ["get_lead", "{\"lead_id\": \"L-4468\"}"], ["get_company", "{\"company_id\": \"C-655\"}"], ["get_activity_history", "{\"lead_id\": \"L-4468\", \"limit\": 20}"], ["reason", "recommendation formed"], ["validate", "all criteria met"]]}, {"run": "R-4467-8979", "id": "L-4467", "co": "Delta Co", "contact": "S. Nair", "source": "Web form", "created": "today", "priority": "LOW", "conf": 0.55, "action": "route_to_nurture", "age": "now", "status": "pending", "evidence": [["No explicit buying intent stated", "lead.inbound_message"], ["Small Business company", "company.size_band"], ["No recent activity", "activities"]], "run_info": {"calls": 3, "ms": 0.21, "tokens": 98}, "log": [["decide", "plan: get_lead, get_company, get_activity_history"], ["get_lead", "{\"lead_id\": \"L-4467\"}"], ["get_company", "{\"company_id\": \"C-540\"}"], ["get_activity_history", "{\"lead_id\": \"L-4467\", \"limit\": 20}"], ["reason", "recommendation formed"], ["validate", "all criteria met"]]}];</script>
+<script>window.__ALLXAI_DATA__ = [{"run": "R-4471-7769", "id": "L-4471", "co": "Acme Corp", "contact": "J. Rao", "source": "Web form", "created": "today", "priority": "HIGH", "conf": 0.95, "action": "route_to_sales", "age": "now", "status": "pending", "evidence": [["Explicit buying intent in message", "lead.inbound_message"], ["Mid Market company fit", "company.size_band"], ["3 recent activity events", "activities"]], "run_info": {"calls": 3, "ms": 0.08, "tokens": 150}, "log": [["decide", "plan: get_lead, get_company, get_activity_history"], ["get_lead", "{\"lead_id\": \"L-4471\"}"], ["get_company", "{\"company_id\": \"C-889\"}"], ["get_activity_history", "{\"lead_id\": \"L-4471\", \"limit\": 20}"], ["reason", "recommendation formed"], ["validate", "all criteria met"]]}, {"run": "R-4470-7769", "id": "L-4470", "co": "Beta Ltd", "contact": "M. Shah", "source": "Web form", "created": "today", "priority": "MEDIUM", "conf": 0.67, "action": "request_more_information", "age": "now", "status": "pending", "evidence": [["General interest expressed", "lead.inbound_message"], ["Small Business company", "company.size_band"], ["1 recent activity events", "activities"]], "run_info": {"calls": 3, "ms": 0.04, "tokens": 116}, "log": [["decide", "plan: get_lead, get_company, get_activity_history"], ["get_lead", "{\"lead_id\": \"L-4470\"}"], ["get_company", "{\"company_id\": \"C-701\"}"], ["get_activity_history", "{\"lead_id\": \"L-4470\", \"limit\": 20}"], ["reason", "recommendation formed"], ["validate", "all criteria met"]]}, {"run": "R-4468-7769", "id": "L-4468", "co": "Gamma Inc", "contact": "P. Iyer", "source": "Referral", "created": "today", "priority": "HIGH", "conf": 0.91, "action": "request_more_information", "age": "now", "status": "pending", "evidence": [["General interest expressed", "lead.inbound_message"], ["Enterprise company fit", "company.size_band"], ["2 recent activity events", "activities"]], "run_info": {"calls": 3, "ms": 0.03, "tokens": 132}, "log": [["decide", "plan: get_lead, get_company, get_activity_history"], ["get_lead", "{\"lead_id\": \"L-4468\"}"], ["get_company", "{\"company_id\": \"C-655\"}"], ["get_activity_history", "{\"lead_id\": \"L-4468\", \"limit\": 20}"], ["reason", "recommendation formed"], ["validate", "all criteria met"]]}, {"run": "R-4467-7769", "id": "L-4467", "co": "Delta Co", "contact": "S. Nair", "source": "Web form", "created": "today", "priority": "LOW", "conf": 0.55, "action": "route_to_nurture", "age": "now", "status": "pending", "evidence": [["No explicit buying intent stated", "lead.inbound_message"], ["Small Business company", "company.size_band"], ["No recent activity", "activities"]], "run_info": {"calls": 3, "ms": 0.15, "tokens": 98}, "log": [["decide", "plan: get_lead, get_company, get_activity_history"], ["get_lead", "{\"lead_id\": \"L-4467\"}"], ["get_company", "{\"company_id\": \"C-540\"}"], ["get_activity_history", "{\"lead_id\": \"L-4467\", \"limit\": 20}"], ["reason", "recommendation formed"], ["validate", "all criteria met"]]}];</script>
 </head>
 <body>
 <div class="app">
@@ -447,7 +456,7 @@ function renderDashboard(){
   bars("dash-priority",["HIGH","MEDIUM","LOW"].map(p=>[p,a.by[p]||0]));
   const recent=data.slice().sort((x,y)=>ORDER[x.priority]-ORDER[y.priority]||y.conf-x.conf).slice(0,5);
   document.getElementById("dash-recent").innerHTML=recent.map(l=>`
-    <div class="bar-row" style="grid-template-columns:142px minmax(0,1fr) auto;column-gap:14px">
+    <div class="rec-row">
       <span class="chip ${l.priority}">${l.priority}</span>
       <span>${l.co} <span class="lead-id">${l.id}</span></span>
       <span class="bar-val">${ACTION_LABEL[l.action]}</span></div>`).join("");
