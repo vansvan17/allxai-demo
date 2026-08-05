@@ -164,6 +164,17 @@
   </div>
 </div></header>
 
+<!-- ABOUT -->
+<section class="blk" id="about"><div class="wrap">
+  <div class="head"><span class="eyebrow">About Us</span><h2>Together With AI</h2>
+    <p>All Into AI is an AI-as-a-Service partner that helps businesses automate workflows, enhance decision-making, and build scalable AI infrastructure - so AI becomes the core engine of your growth.</p></div>
+  <div class="grid g3">
+    <div class="card"><div class="ic">&#9881;&#65039;</div><h3>Automate</h3><p>Automate complex, cross-team workflows with AI orchestration - end to end.</p></div>
+    <div class="card"><div class="ic">&#128736;&#65039;</div><h3>Deploy safely</h3><p>Deploy models with observability, versioning and safe rollbacks built in.</p></div>
+    <div class="card"><div class="ic">&#127959;&#65039;</div><h3>Build foundations</h3><p>Build AI-ready data and infrastructure foundations from day one.</p></div>
+  </div>
+</div></section>
+
 <!-- CHALLENGE -->
 <section class="blk"><div class="wrap">
   <div class="head"><span class="eyebrow">The Challenge</span><h2>Why AI adoption fails</h2><p>Most businesses hit the same walls when scaling AI beyond experiments.</p></div>
@@ -237,17 +248,6 @@
   </div>
 </div></section>
 
-<!-- ABOUT -->
-<section class="blk" id="about"><div class="wrap">
-  <div class="head"><span class="eyebrow">About Us</span><h2>Together With AI</h2>
-    <p>All Into AI is an AI-as-a-Service partner that helps businesses automate workflows, enhance decision-making, and build scalable AI infrastructure - so AI becomes the core engine of your growth.</p></div>
-  <div class="grid g3">
-    <div class="card"><div class="ic">&#9881;&#65039;</div><h3>Automate</h3><p>Automate complex, cross-team workflows with AI orchestration - end to end.</p></div>
-    <div class="card"><div class="ic">&#128736;&#65039;</div><h3>Deploy safely</h3><p>Deploy models with observability, versioning and safe rollbacks built in.</p></div>
-    <div class="card"><div class="ic">&#127959;&#65039;</div><h3>Build foundations</h3><p>Build AI-ready data and infrastructure foundations from day one.</p></div>
-  </div>
-</div></section>
-
 <!-- CONTACT -->
 <section class="blk contact" id="contact"><div class="wrap">
   <div>
@@ -257,6 +257,7 @@
   </div>
   <div>
     <form id="cform" onsubmit="return sendContact(event)">
+      <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px"/>
       <div class="frow">
         <div><label>First name</label><input required name="fname" placeholder="Jane"/></div>
         <div><label>Last name</label><input required name="lname" placeholder="Rao"/></div>
@@ -308,8 +309,31 @@
 <script>
 function sendContact(e){
   e.preventDefault();
-  document.getElementById('cform').style.display='none';
-  document.getElementById('sent').style.display='block';
+  var form=document.getElementById('cform');
+  if(form._honey && form._honey.value){ return false; } /* spam honeypot */
+  var btn=form.querySelector('button[type="submit"]'); var orig=btn.innerHTML;
+  btn.disabled=true; btn.innerHTML='Sending...';
+  fetch('https://formsubmit.co/ajax/allintoai.ai@gmail.com',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body:JSON.stringify({
+      name:(form.fname.value+' '+form.lname.value).trim(),
+      email:form.email.value,
+      company:form.company.value,
+      goal:form.goal.value,
+      message:form.msg.value,
+      _subject:'New ALLXAI website enquiry',
+      _template:'table'
+    })
+  }).then(function(r){return r.json();}).then(function(){
+    form.style.display='none';
+    document.getElementById('sent').style.display='block';
+  }).catch(function(){
+    btn.disabled=false; btn.innerHTML=orig;
+    var s=document.getElementById('sent');
+    s.textContent='Could not send just now - please email allintoai.ai@gmail.com directly.';
+    s.style.display='block';
+  });
   return false;
 }
 
