@@ -123,11 +123,11 @@
   table.q tr:last-child td{border-bottom:none}
   tr.row{cursor:pointer}
   tr.row:hover{background:var(--accent-soft)}
-  .chatbtn{position:fixed;right:20px;bottom:20px;width:56px;height:56px;border-radius:50%;border:none;cursor:pointer;background:linear-gradient(135deg,#22c9e0,#2f8cff);color:#04202a;font-size:24px;box-shadow:0 8px 26px rgba(34,201,224,.4);z-index:40;display:grid;place-items:center}
-  .chatteaser{position:fixed;right:88px;bottom:29px;z-index:40;display:flex;align-items:center;gap:9px;max-width:220px;padding:10px 10px 10px 13px;border:1px solid rgba(34,201,224,.3);border-radius:12px;background:rgba(13,20,32,.96);box-shadow:0 10px 28px rgba(0,0,0,.38),0 0 22px rgba(34,201,224,.12);color:var(--ink);font-size:12.5px;font-weight:650;cursor:pointer;animation:teaserIn .45s ease both}
+  .chatbtn{position:fixed;right:20px;bottom:84px;width:56px;height:56px;border-radius:50%;border:none;cursor:pointer;background:linear-gradient(135deg,#22c9e0,#2f8cff);color:#04202a;font-size:24px;box-shadow:0 8px 26px rgba(34,201,224,.4);z-index:40;display:grid;place-items:center}
+  .chatteaser{position:fixed;right:88px;bottom:93px;z-index:40;display:flex;align-items:center;gap:9px;max-width:220px;padding:10px 10px 10px 13px;border:1px solid rgba(34,201,224,.3);border-radius:12px;background:rgba(13,20,32,.96);box-shadow:0 10px 28px rgba(0,0,0,.38),0 0 22px rgba(34,201,224,.12);color:var(--ink);font-size:12.5px;font-weight:650;cursor:pointer;animation:teaserIn .45s ease both}
   .chatteaser::after{content:"";position:absolute;right:-6px;top:50%;width:11px;height:11px;background:rgba(13,20,32,.96);border-top:1px solid rgba(34,201,224,.3);border-right:1px solid rgba(34,201,224,.3);transform:translateY(-50%) rotate(45deg)}
   .chatteaser .spark{color:var(--accent);font-size:16px;line-height:1}.chatteaser .teaserx{position:relative;z-index:1;border:0;background:none;color:var(--muted);padding:0;font-size:16px;line-height:1;cursor:pointer}.chatteaser.hidden{display:none}@keyframes teaserIn{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:none}}
-  .chatpanel{position:fixed;right:20px;bottom:88px;width:340px;max-width:calc(100vw - 40px);height:460px;max-height:72vh;background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:0 20px 50px rgba(0,0,0,.55);z-index:40;display:none;flex-direction:column;overflow:hidden}
+  .chatpanel{position:fixed;right:20px;bottom:152px;width:340px;max-width:calc(100vw - 40px);height:460px;max-height:72vh;background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:0 20px 50px rgba(0,0,0,.55);z-index:40;display:none;flex-direction:column;overflow:hidden}
   .chatpanel.open{display:flex}
   .chathead{padding:13px 15px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px}
   .chathead .dot{width:9px;height:9px;border-radius:50%;background:var(--ok);flex-shrink:0}
@@ -228,8 +228,25 @@
   .brandword .x{color:var(--accent);display:inline-block;transform-origin:50% 50%;margin:0 .04em;animation:xspin 12s linear infinite}
   @keyframes xspin{to{transform:rotate(360deg)}}
   @media (prefers-reduced-motion: reduce){ .x{animation:none !important} }
+
+  /* site footer */
+  .site-foot{border-top:1px solid var(--line);margin-top:26px;padding:24px 4px 12px;color:var(--muted)}
+  .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:24px;align-items:start}
+  .foot-word{font-weight:800;font-size:19px;color:var(--ink);letter-spacing:.5px;margin-bottom:8px}
+  .foot-word .x{color:var(--accent)}
+  .foot-brand p{font-size:12.8px;line-height:1.6;max-width:340px;margin:0 0 12px}
+  .foot-social{display:flex;gap:9px}
+  .foot-social a{width:32px;height:32px;border:1px solid var(--line);border-radius:8px;display:grid;place-items:center;color:var(--muted);text-decoration:none;font-size:13px;font-weight:800}
+  .foot-social a:hover{color:var(--accent);border-color:var(--accent)}
+  .foot-col h4{font-size:11px;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin:2px 0 10px}
+  .foot-col a{display:block;font-size:12.8px;color:var(--ink);text-decoration:none;margin-bottom:9px;cursor:pointer;opacity:.85}
+  .foot-col a:hover{color:var(--accent);opacity:1}
+  .foot-bar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;border-top:1px solid var(--line);margin-top:20px;padding-top:14px;font-size:12px}
+  .foot-legal a{color:var(--muted);text-decoration:none;margin-left:14px;cursor:pointer}
+  .foot-legal a:hover{color:var(--accent)}
+  @media (max-width:640px){ .foot-grid{grid-template-columns:1fr 1fr;gap:18px} .foot-brand{grid-column:1 / -1} }
 </style>
-<script>window.__ALLXAI_DATA__ = [{"run": "R-4471-7769", "id": "L-4471", "co": "Acme Corp", "contact": "J. Rao", "source": "Web form", "created": "today", "priority": "HIGH", "conf": 0.95, "action": "route_to_sales", "age": "now", "status": "pending", "evidence": [["Explicit buying intent in message", "lead.inbound_message"], ["Mid Market company fit", "company.size_band"], ["3 recent activity events", "activities"]], "run_info": {"calls": 3, "ms": 0.08, "tokens": 150}, "log": [["decide", "plan: get_lead, get_company, get_activity_history"], ["get_lead", "{\"lead_id\": \"L-4471\"}"], ["get_company", "{\"company_id\": \"C-889\"}"], ["get_activity_history", "{\"lead_id\": \"L-4471\", \"limit\": 20}"], ["reason", "recommendation formed"], ["validate", "all criteria met"]]}, {"run": "R-4470-7769", "id": "L-4470", "co": "Beta Ltd", "contact": "M. Shah", "source": "Web form", "created": "today", "priority": "MEDIUM", "conf": 0.67, "action": "request_more_information", "age": "now", "status": "pending", "evidence": [["General interest expressed", "lead.inbound_message"], ["Small Business company", "company.size_band"], ["1 recent activity events", "activities"]], "run_info": {"calls": 3, "ms": 0.04, "tokens": 116}, "log": [["decide", "plan: get_lead, get_company, get_activity_history"], ["get_lead", "{\"lead_id\": \"L-4470\"}"], ["get_company", "{\"company_id\": \"C-701\"}"], ["get_activity_history", "{\"lead_id\": \"L-4470\", \"limit\": 20}"], ["reason", "recommendation formed"], ["validate", "all criteria met"]]}, {"run": "R-4468-7769", "id": "L-4468", "co": "Gamma Inc", "contact": "P. Iyer", "source": "Referral", "created": "today", "priority": "HIGH", "conf": 0.91, "action": "request_more_information", "age": "now", "status": "pending", "evidence": [["General interest expressed", "lead.inbound_message"], ["Enterprise company fit", "company.size_band"], ["2 recent activity events", "activities"]], "run_info": {"calls": 3, "ms": 0.03, "tokens": 132}, "log": [["decide", "plan: get_lead, get_company, get_activity_history"], ["get_lead", "{\"lead_id\": \"L-4468\"}"], ["get_company", "{\"company_id\": \"C-655\"}"], ["get_activity_history", "{\"lead_id\": \"L-4468\", \"limit\": 20}"], ["reason", "recommendation formed"], ["validate", "all criteria met"]]}, {"run": "R-4467-7769", "id": "L-4467", "co": "Delta Co", "contact": "S. Nair", "source": "Web form", "created": "today", "priority": "LOW", "conf": 0.55, "action": "route_to_nurture", "age": "now", "status": "pending", "evidence": [["No explicit buying intent stated", "lead.inbound_message"], ["Small Business company", "company.size_band"], ["No recent activity", "activities"]], "run_info": {"calls": 3, "ms": 0.15, "tokens": 98}, "log": [["decide", "plan: get_lead, get_company, get_activity_history"], ["get_lead", "{\"lead_id\": \"L-4467\"}"], ["get_company", "{\"company_id\": \"C-540\"}"], ["get_activity_history", "{\"lead_id\": \"L-4467\", \"limit\": 20}"], ["reason", "recommendation formed"], ["validate", "all criteria met"]]}];</script>
+<script>window.__ALLXAI_DATA__ = [{"run": "R-4471-9632", "id": "L-4471", "co": "Acme Corp", "contact": "J. Rao", "source": "Web form", "created": "today", "priority": "HIGH", "conf": 0.95, "action": "route_to_sales", "age": "now", "status": "pending", "evidence": [["Explicit buying intent in message", "lead.inbound_message"], ["Mid Market company fit", "company.size_band"], ["3 recent activity events", "activities"]], "run_info": {"calls": 3, "ms": 0.06, "tokens": 150}, "log": [["decide", "plan: get_lead, get_company, get_activity_history"], ["get_lead", "{\"lead_id\": \"L-4471\"}"], ["get_company", "{\"company_id\": \"C-889\"}"], ["get_activity_history", "{\"lead_id\": \"L-4471\", \"limit\": 20}"], ["reason", "recommendation formed"], ["validate", "all criteria met"]]}, {"run": "R-4470-9632", "id": "L-4470", "co": "Beta Ltd", "contact": "M. Shah", "source": "Web form", "created": "today", "priority": "MEDIUM", "conf": 0.67, "action": "request_more_information", "age": "now", "status": "pending", "evidence": [["General interest expressed", "lead.inbound_message"], ["Small Business company", "company.size_band"], ["1 recent activity events", "activities"]], "run_info": {"calls": 3, "ms": 0.04, "tokens": 116}, "log": [["decide", "plan: get_lead, get_company, get_activity_history"], ["get_lead", "{\"lead_id\": \"L-4470\"}"], ["get_company", "{\"company_id\": \"C-701\"}"], ["get_activity_history", "{\"lead_id\": \"L-4470\", \"limit\": 20}"], ["reason", "recommendation formed"], ["validate", "all criteria met"]]}, {"run": "R-4468-9632", "id": "L-4468", "co": "Gamma Inc", "contact": "P. Iyer", "source": "Referral", "created": "today", "priority": "HIGH", "conf": 0.91, "action": "request_more_information", "age": "now", "status": "pending", "evidence": [["General interest expressed", "lead.inbound_message"], ["Enterprise company fit", "company.size_band"], ["2 recent activity events", "activities"]], "run_info": {"calls": 3, "ms": 0.03, "tokens": 132}, "log": [["decide", "plan: get_lead, get_company, get_activity_history"], ["get_lead", "{\"lead_id\": \"L-4468\"}"], ["get_company", "{\"company_id\": \"C-655\"}"], ["get_activity_history", "{\"lead_id\": \"L-4468\", \"limit\": 20}"], ["reason", "recommendation formed"], ["validate", "all criteria met"]]}, {"run": "R-4467-9632", "id": "L-4467", "co": "Delta Co", "contact": "S. Nair", "source": "Web form", "created": "today", "priority": "LOW", "conf": 0.55, "action": "route_to_nurture", "age": "now", "status": "pending", "evidence": [["No explicit buying intent stated", "lead.inbound_message"], ["Small Business company", "company.size_band"], ["No recent activity", "activities"]], "run_info": {"calls": 3, "ms": 0.12, "tokens": 98}, "log": [["decide", "plan: get_lead, get_company, get_activity_history"], ["get_lead", "{\"lead_id\": \"L-4467\"}"], ["get_company", "{\"company_id\": \"C-540\"}"], ["get_activity_history", "{\"lead_id\": \"L-4467\", \"limit\": 20}"], ["reason", "recommendation formed"], ["validate", "all criteria met"]]}];</script>
 </head>
 <body>
 <div class="app">
@@ -357,6 +374,38 @@
       <div class="cards" id="plan-cards" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))"></div>
       <div class="note">First workflow run is free. Subscribe or contact us for plans and pricing to automate at scale. This is a demonstration of the model; billing is not connected in the MVP.</div>
     </section>
+
+    <footer class="site-foot">
+      <div class="foot-grid">
+        <div class="foot-brand">
+          <div class="foot-word">ALL<span class="x">X</span>AI</div>
+          <p>Custom AI, automation and GenAI solutions that help businesses automate, analyse and scale securely. Together With AI.</p>
+          <div class="foot-social">
+            <a href="https://www.linkedin.com/company/allintoai" target="_blank" rel="noopener" aria-label="LinkedIn">in</a>
+            <a href="https://www.youtube.com/@Allintoai-ai" target="_blank" rel="noopener" aria-label="YouTube">&#9654;</a>
+            <a href="https://wa.me/919663501526" target="_blank" rel="noopener" aria-label="WhatsApp">&#9990;</a>
+          </div>
+        </div>
+        <div class="foot-col">
+          <h4>Product</h4>
+          <a onclick="showView('triage')">Workflows</a>
+          <a onclick="showView('analytics')">Analytics</a>
+          <a onclick="showView('models')">Model comparison</a>
+          <a onclick="showView('plans')">Plans &amp; pricing</a>
+        </div>
+        <div class="foot-col">
+          <h4>Company</h4>
+          <a href="https://allintoai.netlify.app" target="_blank" rel="noopener">About Us</a>
+          <a href="https://allxai.netlify.app/#contact" target="_blank" rel="noopener">Contact Us</a>
+          <a onclick="showView('testimonials')">Testimonials</a>
+        </div>
+      </div>
+      <div class="foot-bar">
+        <span>&copy; 2026 All Into AI. All rights reserved.</span>
+        <span class="foot-legal"><a href="https://allxai.netlify.app" target="_blank" rel="noopener">Terms</a><a href="https://allxai.netlify.app" target="_blank" rel="noopener">Privacy</a><a href="https://allxai.netlify.app" target="_blank" rel="noopener">Cookies</a></span>
+      </div>
+    </footer>
+
 
   </div>
 </div>
@@ -571,7 +620,7 @@ function useFree(){ if(freeUsed){ openUpgrade(); return false; } freeUsed=true; 
 function updatePlanBadge(){ var b=document.getElementById('planbadge'); if(b) b.textContent = freeUsed ? 'Free plan - used' : 'Free plan'; }
 function openUpgrade(){ document.getElementById('umodal').classList.add('open'); document.getElementById('uscrim').classList.add('open'); }
 function closeUpgrade(){ document.getElementById('umodal').classList.remove('open'); document.getElementById('uscrim').classList.remove('open'); }
-function contactProvider(){ closeUpgrade(); banner('Thanks - we will share plans and pricing shortly.'); }
+function contactProvider(){ closeUpgrade(); window.open('https://allxai.netlify.app/#contact','_blank','noopener'); }
 function renderPlans(){
   var plans=[
     ["Free","Rs 0","1 workflow run",["1 lead-triage run","Explainable recommendations","Full audit trail"],true],
