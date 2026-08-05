@@ -33,7 +33,7 @@
   /* hero */
   .hero{position:relative;overflow:hidden}
   .hero::before{content:"";position:absolute;top:-160px;right:-120px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(34,201,224,.18),transparent 62%);pointer-events:none}
-  .hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:44px;align-items:center;padding:74px 22px 64px}
+  .hero .wrap{display:block;padding:60px 22px 54px}
   .hero h1{font-size:46px;font-weight:800;margin:16px 0 16px;letter-spacing:-.5px}
   .hero p{color:var(--muted);font-size:17px;max-width:520px;margin:0 0 26px}
   .hero .row{display:flex;gap:12px;flex-wrap:wrap}
@@ -49,6 +49,21 @@
   .mbar{height:8px;border-radius:999px;background:var(--line);overflow:hidden;margin-top:8px}
   .mbar>i{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--cyan2))}
   @media (max-width:860px){ .hero .wrap{grid-template-columns:1fr;padding:52px 22px 44px} .hero h1{font-size:34px} .mock{order:2} }
+
+  /* live demo panel */
+  .demo-panel{margin-top:38px;background:linear-gradient(180deg,var(--panel),#0a121d);border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:0 30px 70px rgba(0,0,0,.5)}
+  .demo-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+  .demo-title{font-weight:800;font-size:16.5px}
+  .demo-sub{color:var(--muted);font-size:12.5px}
+  .live{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;color:var(--cyan);border:1px solid rgba(34,201,224,.4);border-radius:999px;padding:5px 12px}
+  .live i{width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 8px var(--cyan);animation:livep 1.6s ease-in-out infinite}
+  @keyframes livep{0%,100%{opacity:1}50%{opacity:.3}}
+  .demo-frame{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--bg)}
+  .demo-bar{display:flex;align-items:center;gap:6px;padding:9px 12px;background:var(--panel2);border-bottom:1px solid var(--line)}
+  .demo-bar em{width:10px;height:10px;border-radius:50%;background:var(--line)}
+  .demo-url{margin-left:10px;font-size:11.5px;color:var(--muted)}
+  .demo-iframe{display:block;width:100%;height:580px;border:0;background:var(--bg)}
+  @media (max-width:640px){ .demo-iframe{height:540px} }
 
   /* sections */
   section.blk{padding:66px 0;border-top:1px solid var(--line)}
@@ -75,6 +90,11 @@
   .why .card{display:flex;gap:12px;align-items:flex-start}
   @media (max-width:860px){ .g3,.g4,.why{grid-template-columns:1fr 1fr} }
   @media (max-width:560px){ .g3,.g4,.why{grid-template-columns:1fr} }
+
+  /* scroll reveal (content appears one by one) */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .6s ease, transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion: reduce){ .reveal{opacity:1 !important;transform:none !important} }
 
   /* CTA band */
   .band{background:linear-gradient(120deg,rgba(34,201,224,.12),rgba(47,140,255,.10));border:1px solid var(--line);border-radius:20px;padding:40px;text-align:center;margin:56px 0}
@@ -114,9 +134,9 @@
     <a href="#features">Features</a>
     <a href="#how">How It Works</a>
     <a href="#usecases">Use Cases</a>
+    <a href="#about">About</a>
   </div>
   <div class="cta">
-    <a class="ghost" href="login.html">Login</a>
     <a class="btn primary" href="loading.html">Get Started</a>
   </div>
 </div></div>
@@ -132,18 +152,14 @@
       <a class="btn" href="#contact">Book a Demo</a>
     </div>
   </div>
-  <div class="mock" aria-hidden="true">
-    <div class="bar"><i></i><i></i><i></i></div>
-    <div class="tiles">
-      <div class="mtile"><div class="k">Leads triaged</div><div class="v">4</div><div class="s">this session</div></div>
-      <div class="mtile"><div class="k">High priority</div><div class="v">2</div><div class="s">need attention</div></div>
-      <div class="mtile"><div class="k">Avg confidence</div><div class="v">0.77</div><div class="s">across recommendations</div></div>
-      <div class="mtile"><div class="k">Writes</div><div class="v">0</div><div class="s">advisory, no writes</div></div>
-      <div class="mtile wide"><div class="k">Priority mix</div>
-        <div class="mbar"><i style="width:100%"></i></div>
-        <div class="mbar"><i style="width:55%"></i></div>
-        <div class="mbar"><i style="width:40%"></i></div>
-      </div>
+  <div class="demo-panel">
+    <div class="demo-head">
+      <div><div class="demo-title">AI Understands Your Inputs</div><div class="demo-sub">ALLXAI live demo - lead triage running in real time</div></div>
+      <span class="live"><i></i> Live</span>
+    </div>
+    <div class="demo-frame">
+      <div class="demo-bar"><em></em><em></em><em></em><span class="demo-url">app.allxaiapp.com</span></div>
+      <iframe class="demo-iframe" src="app.html?view=dashboard" title="ALLXAI live dashboard" loading="lazy"></iframe>
     </div>
   </div>
 </div></header>
@@ -221,6 +237,17 @@
   </div>
 </div></section>
 
+<!-- ABOUT -->
+<section class="blk" id="about"><div class="wrap">
+  <div class="head"><span class="eyebrow">About Us</span><h2>Together With AI</h2>
+    <p>All Into AI is an AI-as-a-Service partner that helps businesses automate workflows, enhance decision-making, and build scalable AI infrastructure - so AI becomes the core engine of your growth.</p></div>
+  <div class="grid g3">
+    <div class="card"><div class="ic">&#9881;&#65039;</div><h3>Automate</h3><p>Automate complex, cross-team workflows with AI orchestration - end to end.</p></div>
+    <div class="card"><div class="ic">&#128736;&#65039;</div><h3>Deploy safely</h3><p>Deploy models with observability, versioning and safe rollbacks built in.</p></div>
+    <div class="card"><div class="ic">&#127959;&#65039;</div><h3>Build foundations</h3><p>Build AI-ready data and infrastructure foundations from day one.</p></div>
+  </div>
+</div></section>
+
 <!-- CONTACT -->
 <section class="blk contact" id="contact"><div class="wrap">
   <div>
@@ -285,4 +312,23 @@ function sendContact(e){
   document.getElementById('sent').style.display='block';
   return false;
 }
+
+(function(){
+  var sel='.head, .card, .step, .chip, .band, .demo-panel, #cform, .foot-grid';
+  var els=[].slice.call(document.querySelectorAll(sel));
+  els.forEach(function(el){ el.classList.add('reveal'); });
+  if(!('IntersectionObserver' in window)){ els.forEach(function(el){el.classList.add('in');}); return; }
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting) return;
+      var el=e.target;
+      var sibs=[].filter.call(el.parentElement.children,function(c){return c.classList.contains('reveal');});
+      var i=sibs.indexOf(el); if(i<0) i=0;
+      el.style.transitionDelay=(i*90)+'ms';
+      el.classList.add('in');
+      io.unobserve(el);
+    });
+  },{threshold:0.12, rootMargin:'0px 0px -8% 0px'});
+  els.forEach(function(el){ io.observe(el); });
+})();
 </script>
